@@ -42,8 +42,6 @@
 
 !\[graph](https://github-readme-activity-graph.vercel.app/graph?username=Flevian11\&theme=tokyo-night)
 
-
-
 \---
 
 
