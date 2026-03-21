@@ -26,21 +26,14 @@
 
 
 
-\## 📊 GitHub Stats
+## 📊 GitHub Stats
+<img src="https://github-readme-stats.vercel.app/api?username=Flevian11&show_icons=true&theme=tokyonight" />
 
-!\[stats](https://github-readme-stats.vercel.app/api?username=Flevian11\&show\_icons=true\&theme=tokyonight)
+## 🔥 Streak Stats
+<img src="https://streak-stats.demolab.com?user=Flevian11&theme=tokyonight" />
 
-
-
-\## 🔥 Streak Stats
-
-!\[streak](https://streak-stats.demolab.com?user=Flevian11\&theme=tokyonight)
-
-
-
-\## 📈 Activity Graph
-
-!\[graph](https://github-readme-activity-graph.vercel.app/graph?username=Flevian11\&theme=tokyo-night)
+## 📈 Activity Graph
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=Flevian11&theme=tokyo-night" />
 
 \---
 
