@@ -13,16 +13,20 @@
 
 ## ⚡ Tech Stack
 
-**Languages**
-- PHP • Java • Python • C • C++ • Dart  
+### 💻 Languages
+<p>
+  <img src="https://skillicons.dev/icons?i=php,java,python,c,cpp,dart,js,html,css" />
+</p>
 
-**Frameworks & Tools**
-- Laravel • Flutter  
-- MySQL • APIs • Git • Linux  
+### ⚙️ Frameworks & Tools
+<p>
+  <img src="https://skillicons.dev/icons?i=laravel,flutter,mysql,git,linux" />
+</p>
 
-**Focus Areas**
-- Backend Systems • Automation • AI Integration • System Architecture  
-
+### 🧠 Focus
+<p>
+  Backend Systems • Automation • AI Integration • System Architecture
+</p>
 ---
 
 ## 📊 GitHub Analytics
