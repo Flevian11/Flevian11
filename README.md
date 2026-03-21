@@ -4,21 +4,24 @@
 ---
 
 ## 🧠 About Me
-- 🔧 Building scalable systems like **YaliID** & AI-powered platforms  
-- 🤖 Passionate about **AI, automation, and real-world solutions**  
-- 💻 Strong in **backend + fullstack development**  
-- 🎯 Focused on **performance, clean architecture, and usability**  
+- 🔧 Building scalable systems and real-world solutions  
+- 🤖 Focused on AI, automation, and backend architecture  
+- 💻 Strong in fullstack development and system design  
+- 🎯 Driven by performance, clean code, and usability  
 
 ---
 
 ## ⚡ Tech Stack
-**Languages & Core**
-- PHP • Java • Python  
-- JavaScript • HTML • CSS  
 
-**Tools & Systems**
+**Languages**
+- PHP • Java • Python • C • C++ • Dart  
+
+**Frameworks & Tools**
+- Laravel • Flutter  
 - MySQL • APIs • Git • Linux  
-- Automation • System Design  
+
+**Focus Areas**
+- Backend Systems • Automation • AI Integration • System Architecture  
 
 ---
 
@@ -36,17 +39,10 @@
 
 ---
 
-## 🚀 Projects
-- 🪪 **YaliID** — Smart ID generation & automation system  
-- 🛒 **TexCart** — AI-powered eCommerce system  
-- 📜 **AI Certificate Parser** — OCR + AI document processing  
-
----
-
 ## 🌍 Connect With Me
 - 📧 flevianochoka19@gmail.com  
-- 🌐 Portfolio: https://flevian11.github.io/portfolio  
-- 🐦 Twitter/X: @Flevian11  
+- 🌐 https://portfolio.yaliid.cloud  
+- 🐦 @Flevian11  
 
 ---
 
@@ -56,4 +52,4 @@
 ---
 
 ## 🔄 Activity Status
-🟢 Actively building, learning, and shipping daily
+🟢 Actively building, learning, and shipping consistently
