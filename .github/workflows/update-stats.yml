@@ -34,7 +34,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y jq curl
 
-      - name: Fetch real-time GitHub stats
+      - name: Fetch GitHub stats
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -42,80 +42,60 @@ jobs:
           const axios = require('axios');
           const moment = require('moment');
           const fs = require('fs');
-          
+
           const username = 'Flevian11';
           const token = process.env.GITHUB_TOKEN;
-          
+
           async function fetchGitHubStats() {
             const headers = { Authorization: `token ${token}` };
-            
+
             try {
-              // Fetch user data
               const userRes = await axios.get(`https://api.github.com/users/${username}`, { headers });
               const user = userRes.data;
-              
-              // Fetch repos
-              const reposRes = await axios.get(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`, { headers });
+
+              const reposRes = await axios.get(`https://api.github.com/users/${username}/repos?per_page=100`, { headers });
               const repos = reposRes.data;
-              
-              // Calculate repo stats
-              const totalStars = repos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
-              const totalForks = repos.reduce((sum, repo) => sum + repo.forks_count, 0);
-              
-              // Get top 5 starred repos
+
+              const totalStars = repos.reduce((sum, r) => sum + r.stargazers_count, 0);
+              const totalForks = repos.reduce((sum, r) => sum + r.forks_count, 0);
+
               const topRepos = repos
                 .sort((a, b) => b.stargazers_count - a.stargazers_count)
                 .slice(0, 5)
-                .map(repo => ({
-                  name: repo.name,
-                  stars: repo.stargazers_count,
-                  forks: repo.forks_count,
-                  description: repo.description || "No description",
-                  url: repo.html_url
+                .map(r => ({
+                  name: r.name,
+                  stars: r.stargazers_count,
+                  forks: r.forks_count,
+                  description: r.description || "No description",
+                  url: r.html_url
                 }));
-              
-              // Get recent activity
+
               let recentActivity = [];
               try {
                 const eventsRes = await axios.get(`https://api.github.com/users/${username}/events/public?per_page=10`, { headers });
-                recentActivity = eventsRes.data.map(event => {
+                recentActivity = eventsRes.data.map(e => {
                   let action = '';
-                  switch(event.type) {
-                    case 'PushEvent':
-                      action = `📝 Pushed to`;
-                      break;
-                    case 'CreateEvent':
-                      action = `✨ Created`;
-                      break;
-                    case 'WatchEvent':
-                      action = `⭐ Starred`;
-                      break;
-                    case 'ForkEvent':
-                      action = `🔱 Forked`;
-                      break;
-                    default:
-                      action = `🔄 ${event.type.replace('Event', '')}`;
+                  switch(e.type) {
+                    case 'PushEvent': action = '📝 Pushed to'; break;
+                    case 'CreateEvent': action = '✨ Created'; break;
+                    case 'WatchEvent': action = '⭐ Starred'; break;
+                    case 'ForkEvent': action = '🔱 Forked'; break;
+                    default: action = `🔄 ${e.type.replace('Event','')}`;
                   }
                   return {
-                    action: action,
-                    repo: event.repo.name,
-                    date: moment(event.created_at).fromNow()
+                    action,
+                    repo: e.repo.name,
+                    date: moment(e.created_at).fromNow()
                   };
                 });
-              } catch (e) {
-                console.log('Could not fetch events');
-              }
-              
-              // Calculate profile score
-              const profileScore = Math.min(
-                100,
-                Math.floor(
-                  (user.followers * 0.3) +
-                  (totalStars * 0.4) +
-                  (user.public_repos * 0.3)
-                )
-              );
-              
+              } catch {}
+
+              const score = Math.min(100, Math.floor(
+                (user.followers * 0.3) +
+                (totalStars * 0.4) +
+                (user.public_repos * 0.3)
+              ));
+
               const stats = {
                 streak: 0,
                 longest_streak: 0,
@@ -124,27 +104,27 @@ jobs:
                 repos: user.public_repos,
                 followers: user.followers,
                 contributions: 0,
-                score: profileScore,
+                score,
                 top_repos: topRepos,
                 recent_activity: recentActivity
               };
-              
+
               fs.writeFileSync('stats.json', JSON.stringify(stats, null, 2));
-              console.log('✅ Stats fetched');
-            } catch (error) {
-              console.error('Error:', error.message);
+              console.log("✅ Stats ready");
+
+            } catch (e) {
+              console.error(e.message);
               process.exit(1);
             }
           }
-          
+
           fetchGitHubStats();
           EOF
-          
+
           node fetch_stats.js
 
-      - name: Update README with stats
+      - name: Update README safely
         run: |
-          # Read stats
           STREAK=$(jq -r '.streak' stats.json)
           LONGEST=$(jq -r '.longest_streak' stats.json)
           STARS=$(jq -r '.stars' stats.json)
@@ -154,56 +134,61 @@ jobs:
           CONTRIB=$(jq -r '.contributions' stats.json)
           SCORE=$(jq -r '.score' stats.json)
           LAST_UPDATED=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
-          
-          # Update the table numbers
-          sed -i "s|<!-- STREAK -->|${STREAK}|g" README.md
-          sed -i "s|<!-- LONGEST -->|${LONGEST}|g" README.md
-          sed -i "s|<!-- STARS -->|${STARS}|g" README.md
-          sed -i "s|<!-- FORKS -->|${FORKS}|g" README.md
-          sed -i "s|<!-- REPOS -->|${REPOS}|g" README.md
-          sed -i "s|<!-- FOLLOWERS -->|${FOLLOWERS}|g" README.md
-          sed -i "s|<!-- CONTRIB -->|${CONTRIB}|g" README.md
-          sed -i "s|<!-- SCORE -->|${SCORE}|g" README.md
-          
-          # Update top repositories section
-          cat > top_repos.md << 'EOF'
-          | Repository | Stars | Forks | Description |
-           EOF
-          
-          jq -r '.top_repos[] | "| [\(.name)](\(.url)) | ⭐ \(.stars) | 🔱 \(.forks) | \(.description) |"' stats.json >> top_repos.md
-          
-          # Replace top repos section
-          sed -i '/<!-- TOP_REPOS_START -->/,/<!-- TOP_REPOS_END -->/c\
-          <!-- TOP_REPOS_START -->\n'"$(cat top_repos.md)"'\n<!-- TOP_REPOS_END -->' README.md
-          
-          # Update recent activity section
-          cat > recent_activity.md << 'EOF'
-          | Activity | Repository | Time |
-          |----------|------------|------|
-          EOF
-          
-          jq -r '.recent_activity[] | "| \(.action) | [\(.repo)](https://github.com/\(.repo)) | \(.date) |"' stats.json >> recent_activity.md
-          
-          # Replace recent activity section
-          sed -i '/<!-- RECENT_ACTIVITY_START -->/,/<!-- RECENT_ACTIVITY_END -->/c\
-          <!-- RECENT_ACTIVITY_START -->\n'"$(cat recent_activity.md)"'\n<!-- RECENT_ACTIVITY_END -->' README.md
-          
-          # Update timestamp
-          sed -i "s|<!-- LAST_UPDATED -->|${LAST_UPDATED}|g" README.md
-          
-          echo "✅ README updated"
+
+          # 🔁 Replace numbers safely (persistent placeholders)
+          sed -i "s|<!-- STREAK -->[0-9]*|<!-- STREAK -->${STREAK}|g" README.md
+          sed -i "s|<!-- LONGEST -->[0-9]*|<!-- LONGEST -->${LONGEST}|g" README.md
+          sed -i "s|<!-- STARS -->[0-9]*|<!-- STARS -->${STARS}|g" README.md
+          sed -i "s|<!-- FORKS -->[0-9]*|<!-- FORKS -->${FORKS}|g" README.md
+          sed -i "s|<!-- REPOS -->[0-9]*|<!-- REPOS -->${REPOS}|g" README.md
+          sed -i "s|<!-- FOLLOWERS -->[0-9]*|<!-- FOLLOWERS -->${FOLLOWERS}|g" README.md
+          sed -i "s|<!-- CONTRIB -->[0-9]*|<!-- CONTRIB -->${CONTRIB}|g" README.md
+          sed -i "s|<!-- SCORE -->[0-9]*|<!-- SCORE -->${SCORE}|g" README.md
+
+          # 🏆 Build top repos block
+          {
+            echo "<!-- TOP_REPOS_START -->"
+            echo "| Repository | Stars | Forks | Description |"
+            jq -r '.top_repos[] | "| [\(.name)](\(.url)) | ⭐ \(.stars) | 🔱 \(.forks) | \(.description) |"' stats.json
+            echo "<!-- TOP_REPOS_END -->"
+          } > top_block.md
+
+          awk '
+          /<!-- TOP_REPOS_START -->/ {system("cat top_block.md"); skip=1; next}
+          /<!-- TOP_REPOS_END -->/ {skip=0; next}
+          !skip
+          ' README.md > temp && mv temp README.md
+
+          # 🚀 Build activity block
+          {
+            echo "<!-- RECENT_ACTIVITY_START -->"
+            echo "| Activity | Repo | Time |"
+            echo "|----------|------|------|"
+            jq -r '.recent_activity[] | "| \(.action) | [\(.repo)](https://github.com/\(.repo)) | \(.date) |"' stats.json
+            echo "<!-- RECENT_ACTIVITY_END -->"
+          } > activity_block.md
+
+          awk '
+          /<!-- RECENT_ACTIVITY_START -->/ {system("cat activity_block.md"); skip=1; next}
+          /<!-- RECENT_ACTIVITY_END -->/ {skip=0; next}
+          !skip
+          ' README.md > temp && mv temp README.md
+
+          # ⏱ Update timestamp
+          sed -i "s|<!-- LAST_UPDATED -->.*|<!-- LAST_UPDATED --> ${LAST_UPDATED}|g" README.md
+
+          echo "✅ README updated safely"
 
       - name: Commit changes
         run: |
           git config user.name "Flevian11"
           git config user.email "flevianochoka19@gmail.com"
-          
+
           git add README.md stats.json
-          
+
           if git diff --cached --quiet; then
-            echo "ℹ️ No changes"
+            echo "No changes"
           else
-            git commit -m "📊 Update GitHub stats - $(date -u +'%Y-%m-%d %H:%M')"
+            git commit -m "🔥 Auto-update GitHub stats"
             git push
-            echo "✅ Changes committed"
           fi

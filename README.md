@@ -44,7 +44,7 @@ mindset: Code with purpose. Scale with intelligence.
 
 | Metric            | Value                 |
 | ----------------- | --------------------- |
-| 🔥 Current Streak | <!-- STREAK --> days  |
+| 🔥 Current Streak | <!-- STREAK -->0 days  |
 | 🏆 Longest Streak | <!-- LONGEST --> days |
 | ⭐ Total Stars     | <!-- STARS -->        |
 | 🔱 Total Forks    | <!-- FORKS -->        |
