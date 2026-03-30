@@ -55,23 +55,32 @@ jobs:
               return [];
             }
           }
-
           function calculateStreaks(weeks) {
             let currentStreak = 0;
             let longestStreak = 0;
             let tempStreak = 0;
             let totalContributions = 0;
 
-            const days = weeks.flatMap(w => w.days);
+            if (!weeks || !Array.isArray(weeks)) {
+              return { currentStreak: 0, longestStreak: 0, totalContributions: 0 };
+            }
+
+            const days = weeks.flatMap(w => (w && w.days ? w.days : []));
+
+            if (days.length === 0) {
+              return { currentStreak: 0, longestStreak: 0, totalContributions: 0 };
+            }
 
             // 🔥 current streak
             for (let i = days.length - 1; i >= 0; i--) {
-              if (days[i].count > 0) currentStreak++;
+              if (days[i] && days[i].count > 0) currentStreak++;
               else break;
             }
 
-            // 🏆 longest streak + contributions
+            // 🏆 longest streak + total contributions
             for (let d of days) {
+              if (!d || typeof d.count !== 'number') continue;
+
               totalContributions += d.count;
 
               if (d.count > 0) {
@@ -130,7 +139,7 @@ jobs:
               } catch {}
 
               // 🔥 REAL CONTRIBUTION DATA
-              const contributionWeeks = await getContributionData(username);
+              const contributionWeeks = (await getContributionData(username)) || [];              
               const streakData = calculateStreaks(contributionWeeks);
 
               const score = Math.min(100, Math.floor(
