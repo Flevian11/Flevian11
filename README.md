@@ -12,8 +12,6 @@
 ---
 
 ## 🧠 About Me
-
-```yaml
 name: Flevian Ahithopel
 role: Software Developer & AI Builder
 location: Building scalable systems worldwide
