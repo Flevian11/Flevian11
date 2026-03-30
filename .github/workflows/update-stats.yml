@@ -185,7 +185,8 @@ jobs:
           FOLLOWERS=$(jq -r '.followers' stats.json)
           CONTRIB=$(jq -r '.contributions' stats.json)
           SCORE=$(jq -r '.score' stats.json)
-          LAST_UPDATED=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          LAST_UPDATED=$(TZ="Africa/Nairobi" date +"%Y-%m-%d %H:%M:%S EAT")
+
 
           # 🔁 Replace numbers safely (persistent placeholders)
           sed -i "s|<!-- STREAK -->[0-9]*|<!-- STREAK -->${STREAK}|g" README.md
