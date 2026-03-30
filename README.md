@@ -38,28 +38,6 @@ mindset: Code with purpose. Scale with intelligence.
 
 ---
 
-## 📊 Real-Time GitHub Intelligence
-
-### 🔥 Core Metrics
-
-| Metric            | Value                 |
-| ----------------- | --------------------- |
-| 🔥 Current Streak | <!-- STREAK -->0 days  |
-| 🏆 Longest Streak | <!-- LONGEST -->0 days |
-| ⭐ Total Stars     | <!-- STARS -->3        |
-| 🔱 Total Forks    | <!-- FORKS -->0        |
-
-### 📦 Profile Overview
-
-| Metric           | Value               |
-| ---------------- | ------------------- |
-| 📦 Repositories  | <!-- REPOS -->23      |
-| 👥 Followers     | <!-- FOLLOWERS -->0  |
-| 📈 Contributions | <!-- CONTRIB -->0    |
-| 🎯 Dev Score     | <!-- SCORE -->8 /100 |
-
----
-
 ## 📈 Performance Graphs
 
 <p align="center">
