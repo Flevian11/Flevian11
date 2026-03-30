@@ -167,4 +167,4 @@ jobs:
           
           git add github-contribution-grid-snake.svg github-contribution-grid-snake-dark.svg
           git diff --cached --quiet || git commit -m "🐍 Update snake animation - $(date -u +'%Y-%m-%d')"
-          git push --force-with-lease
+          git push

@@ -46,6 +46,45 @@ jobs:
           const username = 'Flevian11';
           const token = process.env.GITHUB_TOKEN;
 
+          async function getContributionData(username) {
+            try {
+              const res = await axios.get(`https://github-contributions-api.jogruber.de/v4/${username}`);
+              return res.data.contributions;
+            } catch (e) {
+              console.log("⚠️ Failed to fetch contribution data");
+              return [];
+            }
+          }
+
+          function calculateStreaks(weeks) {
+            let currentStreak = 0;
+            let longestStreak = 0;
+            let tempStreak = 0;
+            let totalContributions = 0;
+
+            const days = weeks.flatMap(w => w.days);
+
+            // 🔥 current streak
+            for (let i = days.length - 1; i >= 0; i--) {
+              if (days[i].count > 0) currentStreak++;
+              else break;
+            }
+
+            // 🏆 longest streak + contributions
+            for (let d of days) {
+              totalContributions += d.count;
+
+              if (d.count > 0) {
+                tempStreak++;
+                longestStreak = Math.max(longestStreak, tempStreak);
+              } else {
+                tempStreak = 0;
+              }
+            }
+
+            return { currentStreak, longestStreak, totalContributions };
+          }
+
           async function fetchGitHubStats() {
             const headers = { Authorization: `token ${token}` };
 
@@ -90,6 +129,10 @@ jobs:
                 });
               } catch {}
 
+              // 🔥 REAL CONTRIBUTION DATA
+              const contributionWeeks = await getContributionData(username);
+              const streakData = calculateStreaks(contributionWeeks);
+
               const score = Math.min(100, Math.floor(
                 (user.followers * 0.3) +
                 (totalStars * 0.4) +
@@ -97,20 +140,20 @@ jobs:
               ));
 
               const stats = {
-                streak: 0,
-                longest_streak: 0,
+                streak: streakData.currentStreak,
+                longest_streak: streakData.longestStreak,
                 stars: totalStars,
                 forks: totalForks,
                 repos: user.public_repos,
                 followers: user.followers,
-                contributions: 0,
+                contributions: streakData.totalContributions,
                 score,
                 top_repos: topRepos,
                 recent_activity: recentActivity
               };
 
               fs.writeFileSync('stats.json', JSON.stringify(stats, null, 2));
-              console.log("✅ Stats ready");
+              console.log("🔥 REAL stats generated");
 
             } catch (e) {
               console.error(e.message);

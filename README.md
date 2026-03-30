@@ -109,7 +109,7 @@ mindset: Code with purpose. Scale with intelligence.
 ## 🐍 Contribution Snake (Live)
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake-dark.svg" width="800"/>
+  <img src="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake.svg" width="800"/>
 </p>
 
 ---
