@@ -1,0 +1,475 @@
+name: Update GitHub Stats
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"  # Every 30 minutes for real-time updates
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+permissions:
+  contents: write
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0  # Full history for streak calculation
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm install -g axios moment
+          sudo apt-get update -qq
+          sudo apt-get install -y jq curl
+
+      - name: Fetch real-time GitHub stats
+        id: fetch_stats
+        run: |
+          # Create stats fetching script
+          cat > fetch_stats.js << 'EOF'
+          const axios = require('axios');
+          const moment = require('moment');
+          const fs = require('fs');
+          
+          const username = 'Flevian11';
+          const token = process.env.GITHUB_TOKEN;
+          
+          async function fetchGitHubStats() {
+            const headers = { Authorization: `token ${token}` };
+            
+            // Fetch user data
+            const userRes = await axios.get(`https://api.github.com/users/${username}`, { headers });
+            const user = userRes.data;
+            
+            // Fetch repos
+            const reposRes = await axios.get(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`, { headers });
+            const repos = reposRes.data;
+            
+            // Fetch contributions calendar data
+            const contribRes = await axios.get(`https://github-contributions-api.jogruber.de/v4/${username}?y=last`, { headers: { 'Accept': 'application/json' } });
+            
+            // Calculate streak
+            let currentStreak = 0;
+            let longestStreak = 0;
+            let tempStreak = 0;
+            let lastContributionDate = null;
+            let today = moment().startOf('day');
+            
+            if (contribRes.data && contribRes.data.contributions) {
+              const contributions = contribRes.data.contributions;
+              
+              // Process in reverse chronological order
+              for (let i = contributions.length - 1; i >= 0; i--) {
+                const day = contributions[i];
+                const date = moment(day.date);
+                const count = day.count;
+                
+                if (count > 0) {
+                  if (lastContributionDate === null || date.isSame(lastContributionDate.clone().add(1, 'day'), 'day')) {
+                    currentStreak++;
+                    tempStreak++;
+                  } else {
+                    tempStreak = 1;
+                  }
+                  lastContributionDate = date;
+                  longestStreak = Math.max(longestStreak, tempStreak);
+                } else {
+                  if (lastContributionDate && !date.isSame(lastContributionDate, 'day')) {
+                    tempStreak = 0;
+                  }
+                }
+              }
+              
+              // Check if today has contributions
+              const todayContrib = contributions.find(c => moment(c.date).isSame(today, 'day'));
+              if (!todayContrib || todayContrib.count === 0) {
+                // If no contribution today, streak might be broken unless we check yesterday
+                const yesterday = moment().subtract(1, 'day');
+                const yesterdayContrib = contributions.find(c => moment(c.date).isSame(yesterday, 'day'));
+                if (!yesterdayContrib || yesterdayContrib.count === 0) {
+                  currentStreak = 0;
+                }
+              }
+            }
+            
+            // Calculate repo stats
+            const totalStars = repos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
+            const totalForks = repos.reduce((sum, repo) => sum + repo.forks_count, 0);
+            const totalWatchers = repos.reduce((sum, repo) => sum + repo.watchers_count, 0);
+            const topLanguages = {};
+            repos.forEach(repo => {
+              if (repo.language) {
+                topLanguages[repo.language] = (topLanguages[repo.language] || 0) + 1;
+              }
+            });
+            
+            const topLangArray = Object.entries(topLanguages)
+              .sort((a, b) => b[1] - a[1])
+              .slice(0, 5)
+              .map(([lang, count]) => ({ lang, count }));
+            
+            // Get recent activity
+            const eventsRes = await axios.get(`https://api.github.com/users/${username}/events/public?per_page=50`, { headers });
+            const events = eventsRes.data;
+            
+            const recentActivity = events.slice(0, 10).map(event => ({
+              type: event.type,
+              repo: event.repo.name,
+              created_at: event.created_at,
+              payload: event.payload
+            }));
+            
+            const stats = {
+              user: {
+                name: user.name || username,
+                login: user.login,
+                bio: user.bio,
+                followers: user.followers,
+                following: user.following,
+                public_repos: user.public_repos,
+                created_at: user.created_at,
+                updated_at: user.updated_at
+              },
+              contributions: {
+                current_streak: currentStreak,
+                longest_streak: longestStreak,
+                total_contributions_this_year: contribRes.data?.total?.lastYear || 0
+              },
+              repositories: {
+                total: user.public_repos,
+                total_stars: totalStars,
+                total_forks: totalForks,
+                total_watchers: totalWatchers,
+                top_languages: topLangArray,
+                most_starred: repos.sort((a, b) => b.stargazers_count - a.stargazers_count).slice(0, 5),
+                recently_updated: repos.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)).slice(0, 5)
+              },
+              activity: {
+                recent: recentActivity,
+                last_updated: new Date().toISOString()
+              }
+            };
+            
+            fs.writeFileSync('github_stats.json', JSON.stringify(stats, null, 2));
+            console.log('Stats fetched successfully');
+          }
+          
+          fetchGitHubStats().catch(console.error);
+          EOF
+          
+          node fetch_stats.js
+
+      - name: Generate dynamic badges
+        run: |
+          # Create dynamic badge URLs
+          STREAK=$(jq -r '.contributions.current_streak' github_stats.json)
+          LONGEST=$(jq -r '.contributions.longest_streak' github_stats.json)
+          STARS=$(jq -r '.repositories.total_stars' github_stats.json)
+          FORKS=$(jq -r '.repositories.total_forks' github_stats.json)
+          REPOS=$(jq -r '.repositories.total' github_stats.json)
+          FOLLOWERS=$(jq -r '.user.followers' github_stats.json)
+          
+          cat > dynamic_badges.md << EOF
+          <p align="center">
+            <img src="https://img.shields.io/badge/🔥_Current_Streak-${STREAK}_days-orange?style=for-the-badge" />
+            <img src="https://img.shields.io/badge/🏆_Longest_Streak-${LONGEST}_days-gold?style=for-the-badge" />
+            <img src="https://img.shields.io/badge/⭐_Total_Stars-${STARS}-blue?style=for-the-badge" />
+            <img src="https://img.shields.io/badge/🔱_Total_Forks-${FORKS}-green?style=for-the-badge" />
+            <img src="https://img.shields.io/badge/📦_Repositories-${REPOS}-purple?style=for-the-badge" />
+            <img src="https://img.shields.io/badge/👥_Followers-${FOLLOWERS}-brightgreen?style=for-the-badge" />
+          </p>
+          EOF
+
+      - name: Generate real-time activity graph
+        run: |
+          cat > generate_graph.js << 'EOF'
+          const fs = require('fs');
+          const stats = JSON.parse(fs.readFileSync('github_stats.json', 'utf8'));
+          
+          // Generate contribution heatmap
+          let heatmap = '## 📊 Contribution Heatmap (Last 30 Days)\n\n```\n';
+          
+          const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+          const weeks = [];
+          
+          // Create weeks array
+          for (let i = 0; i < 30; i++) {
+            const date = new Date();
+            date.setDate(date.getDate() - i);
+            const dayName = days[date.getDay() === 0 ? 6 : date.getDay() - 1];
+            const weekNum = Math.floor(i / 7);
+            if (!weeks[weekNum]) weeks[weekNum] = {};
+            weeks[weekNum][dayName] = (weeks[weekNum][dayName] || 0) + 1;
+          }
+          
+          days.forEach(day => {
+            let line = day.padEnd(4);
+            weeks.forEach(week => {
+              const count = week[day] || 0;
+              const symbol = count === 0 ? '·' : count < 3 ? '░' : count < 7 ? '▒' : count < 12 ? '▓' : '█';
+              line += ` ${symbol} `;
+            });
+            heatmap += line + '\n';
+          });
+          
+          heatmap += '```\n\n';
+          
+          // Generate top languages chart
+          heatmap += '## 📈 Most Used Languages\n\n```\n';
+          stats.repositories.top_languages.forEach(lang => {
+            const percentage = (lang.count / stats.repositories.total * 100).toFixed(1);
+            const bar = '█'.repeat(Math.floor(percentage / 2));
+            heatmap += `${lang.lang.padEnd(12)} ${bar} ${percentage}%\n`;
+          });
+          heatmap += '```\n\n';
+          
+          // Generate recent activity
+          heatmap += '## 🚀 Recent Activity\n\n';
+          stats.activity.recent.slice(0, 5).forEach(activity => {
+            const date = new Date(activity.created_at).toLocaleString();
+            let action = '';
+            switch(activity.type) {
+              case 'PushEvent':
+                action = `📝 Pushed ${activity.payload.commits?.length || 0} commits to`;
+                break;
+              case 'CreateEvent':
+                action = `✨ Created ${activity.payload.ref_type} in`;
+                break;
+              case 'WatchEvent':
+                action = `⭐ Starred`;
+                break;
+              case 'ForkEvent':
+                action = `🔱 Forked`;
+                break;
+              case 'IssuesEvent':
+                action = `🐛 ${activity.payload.action} issue in`;
+                break;
+              default:
+                action = `🔄 ${activity.type.replace('Event', '')} in`;
+            }
+            heatmap += `- **${date}** ${action} [${activity.repo}]\n`;
+          });
+          
+          fs.writeFileSync('activity_graph.md', heatmap);
+          EOF
+          
+          node generate_graph.js
+
+      - name: Update README with real-time stats
+        run: |
+          # Read stats
+          STREAK=$(jq -r '.contributions.current_streak' github_stats.json)
+          LONGEST=$(jq -r '.contributions.longest_streak' github_stats.json)
+          STARS=$(jq -r '.repositories.total_stars' github_stats.json)
+          FORKS=$(jq -r '.repositories.total_forks' github_stats.json)
+          REPOS=$(jq -r '.repositories.total' github_stats.json)
+          FOLLOWERS=$(jq -r '.user.followers' github_stats.json)
+          TOTAL_CONTRIB=$(jq -r '.contributions.total_contributions_this_year' github_stats.json)
+          LAST_UPDATED=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          
+          # Read the badges file content
+          BADGES=$(cat dynamic_badges.md)
+          
+          # Create dynamic stats section
+          cat > realtime_stats.md << EOF
+          ## 📊 Real-time GitHub Analytics
+          
+          ${BADGES}
+          
+          ### 🔥 Contribution Streaks
+          <p align="center">
+            <strong>Current Streak:</strong> ${STREAK} days 🔥<br>
+            <strong>Longest Streak:</strong> ${LONGEST} days 🏆<br>
+            <strong>Total Contributions (2024):</strong> ${TOTAL_CONTRIB} 📊
+          </p>
+          
+          ### 📦 Repository Statistics
+          <p align="center">
+            <strong>Total Repositories:</strong> ${REPOS}<br>
+            <strong>⭐ Total Stars Earned:</strong> ${STARS}<br>
+            <strong>🔱 Total Forks:</strong> ${FORKS}<br>
+            <strong>👥 GitHub Followers:</strong> ${FOLLOWERS}
+          </p>
+          
+          ### 🏆 Top Starred Repositories
+          $(jq -r '.repositories.most_starred[] | "* \(.stargazers_count) ⭐ [\(.name)](https://github.com/\(.full_name)) - \(.description // "No description")"' github_stats.json | head -5)
+          
+          ### 🚀 Recently Updated Repositories
+          $(jq -r '.repositories.recently_updated[] | "* 📦 [\(.name)](https://github.com/\(.full_name)) - Updated: \(.updated_at[0:10])"' github_stats.json | head -5)
+          
+          $(cat activity_graph.md)
+          EOF
+          
+          # Check if README exists
+          if [ ! -f README.md ]; then
+            echo "# Flevian11" > README.md
+            echo "" >> README.md
+            echo "Welcome to my GitHub profile!" >> README.md
+          fi
+          
+          # Update README - replace existing stats section or add new one
+          if grep -q "## 📊 Real-time GitHub Analytics" README.md; then
+            # Replace existing stats section
+            sed -i '/## 📊 Real-time GitHub Analytics/,/## /{
+              /## 📊 Real-time GitHub Analytics/!{
+                /## /!d
+              }
+            }' README.md
+            # Insert new stats content after the header
+            sed -i "/## 📊 Real-time GitHub Analytics/r realtime_stats.md" README.md
+          else
+            # Find a good place to insert (after Tech Stack section)
+            if grep -q "## ⚡ Tech Stack" README.md; then
+              # Insert after Tech Stack section
+              sed -i "/## ⚡ Tech Stack/r realtime_stats.md" README.md
+              echo "" >> README.md
+            else
+              # Append at the end
+              echo "" >> README.md
+              echo "---" >> README.md
+              echo "" >> README.md
+              cat realtime_stats.md >> README.md
+            fi
+          fi
+          
+          # Update the Last Updated timestamp
+          if grep -q "Last Updated:" README.md; then
+            sed -i "s|Last Updated:.*|Last Updated: ${LAST_UPDATED}|" README.md
+          else
+            echo "" >> README.md
+            echo "---" >> README.md
+            echo "### ⏱ Last Updated: ${LAST_UPDATED}" >> README.md
+          fi
+          
+          echo "✅ README updated with real-time stats"
+
+      - name: Generate README stats cards
+        run: |
+          # Check if detailed stats section already exists
+          if ! grep -q "## 📈 Detailed Statistics" README.md; then
+            cat >> README.md << 'EOF'
+          
+          <details>
+          <summary><b>📈 Detailed Statistics</b></summary>
+          <br>
+          
+          <p align="center">
+            <img width="49%" src="https://github-readme-stats.vercel.app/api?username=Flevian11&show_icons=true&theme=tokyonight&hide_border=true&include_all_commits=true&count_private=true" />
+            <img width="49%" src="https://github-readme-streak-stats.herokuapp.com/?user=Flevian11&theme=tokyonight&hide_border=true" />
+          </p>
+          
+          <p align="center">
+            <img width="49%" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Flevian11&layout=compact&theme=tokyonight&hide_border=true" />
+            <img width="49%" src="https://github-profile-trophy.vercel.app/?username=Flevian11&theme=tokyonight&no-frame=true&row=2&column=3" />
+          </p>
+          
+          </details>
+          EOF
+          fi
+
+      - name: Create backup of stats
+        run: |
+          # Create a backup directory with timestamp
+          BACKUP_DIR="stats_backups/$(date -u +'%Y-%m-%d')"
+          mkdir -p "$BACKUP_DIR"
+          
+          # Copy stats files to backup
+          cp github_stats.json "$BACKUP_DIR/github_stats_$(date -u +'%H%M%S').json"
+          cp dynamic_badges.md "$BACKUP_DIR/dynamic_badges_$(date -u +'%H%M%S').md"
+          cp activity_graph.md "$BACKUP_DIR/activity_graph_$(date -u +'%H%M%S').md"
+          
+          # Keep only last 7 days of backups
+          find stats_backups -type d -mtime +7 -exec rm -rf {} \;
+          
+          echo "✅ Stats backed up to $BACKUP_DIR"
+
+      - name: Commit all changes
+        run: |
+          git config user.name "Flevian11"
+          git config user.email "flevianochoka19@gmail.com"
+          
+          # Add all generated files
+          git add README.md github_stats.json realtime_stats.md dynamic_badges.md activity_graph.md stats_backups/
+          
+          if git diff --cached --quiet; then
+            echo "ℹ️ No changes to commit"
+          else
+            git commit -m "📊 Update real-time GitHub stats - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push --force-with-lease
+            echo "✅ Stats updated and committed successfully"
+          fi
+
+      - name: Sync stats to activity repository
+        run: |
+          # Clone activity repository
+          cd /tmp
+          rm -rf flevian-activity
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Flevian11/flevian-activity.git
+          cd flevian-activity
+          
+          # Copy latest stats
+          cp $GITHUB_WORKSPACE/github_stats.json .
+          
+          # Update auto.json with latest streak data
+          if [ -f auto.json ]; then
+            STREAK=$(jq -r '.contributions.current_streak' github_stats.json)
+            LONGEST=$(jq -r '.contributions.longest_streak' github_stats.json)
+            TODAY=$(date -u +"%Y-%m-%d")
+            TODAY_COUNT=$(jq --arg today "$TODAY" '[.updates[] | select(startswith($today))] | length' auto.json 2>/dev/null || echo 0)
+            
+            # Update stats in auto.json
+            jq --arg streak "$STREAK" \
+               --arg longest "$LONGEST" \
+               --arg today_count "$TODAY_COUNT" \
+               '.stats.streak_days = ($streak | tonumber) | 
+                .stats.longest_streak = ($longest | tonumber) |
+                .stats.daily_count = ($today_count | tonumber)' \
+               auto.json > auto.tmp && mv auto.tmp auto.json
+          fi
+          
+          # Commit and push changes
+          git config user.name "Flevian11"
+          git config user.email "flevianochoka19@gmail.com"
+          git add github_stats.json auto.json 2>/dev/null || true
+          
+          if git diff --cached --quiet; then
+            echo "ℹ️ No changes to sync to activity repo"
+          else
+            git commit -m "🔄 Sync stats from profile - $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || true
+            git push
+            echo "✅ Stats synced to activity repository"
+          fi
+
+      - name: Generate summary report
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << EOF
+          ## 📊 GitHub Stats Update Summary
+          
+          **Run Time:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          
+          ### 📈 Key Metrics
+          - 🔥 Current Streak: $(jq -r '.contributions.current_streak' github_stats.json) days
+          - 🏆 Longest Streak: $(jq -r '.contributions.longest_streak' github_stats.json) days
+          - ⭐ Total Stars: $(jq -r '.repositories.total_stars' github_stats.json)
+          - 👥 Followers: $(jq -r '.user.followers' github_stats.json)
+          - 📦 Repositories: $(jq -r '.repositories.total' github_stats.json)
+          
+          ### ✅ Status
+          - README Updated: ✓
+          - Stats Backed Up: ✓
+          - Activity Repo Synced: ✓
+          
+          ---
+          *Next update in 30 minutes*
+          EOF

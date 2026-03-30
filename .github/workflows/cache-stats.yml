@@ -1,0 +1,28 @@
+name: Cache GitHub Stats
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"  # Every 15 minutes
+  workflow_dispatch:
+
+jobs:
+  cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache GitHub API responses
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/github-stats
+          key: ${{ runner.os }}-github-stats-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-github-stats-
+            
+      - name: Fetch and cache stats
+        run: |
+          mkdir -p ~/.cache/github-stats
+          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/users/Flevian11 \
+            > ~/.cache/github-stats/user.json
+          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/users/Flevian11/repos?per_page=100 \
+            > ~/.cache/github-stats/repos.json

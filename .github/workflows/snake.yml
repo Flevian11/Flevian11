@@ -1,9 +1,11 @@
-name: Generate Snake
+name: Generate Snake Animation
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 */6 * * *"  # Every 6 hours for fresher animation
   workflow_dispatch:
+  push:
+    branches: [ main, master ]
 
 permissions:
   contents: write
@@ -11,22 +13,158 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
-      - name: Generate snake
+      - name: Generate GitHub contribution grid snake
         uses: Platane/snk@v3
+        id: snake-gif
         with:
           github_user_name: Flevian11
           outputs: |
             dist/github-contribution-grid-snake.svg
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+            dist/github-contribution-grid-snake.gif?color_snake=orange&color_dots=#bfd6f6,#8dbdff,#64a1f4,#0e76fd,#000000
 
-      - name: Push snake
-        uses: crazy-max/ghaction-github-pages@v3
+      - name: Create animated preview
+        run: |
+          # Create a stylish HTML preview
+          cat > dist/preview.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>GitHub Contribution Snake - Flevian11</title>
+            <style>
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                margin: 0;
+                padding: 40px;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+              .container {
+                background: rgba(255,255,255,0.95);
+                border-radius: 20px;
+                padding: 30px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                text-align: center;
+                max-width: 800px;
+              }
+              h1 {
+                color: #333;
+                margin-bottom: 10px;
+              }
+              .badge {
+                display: inline-block;
+                background: #2ea44f;
+                color: white;
+                padding: 5px 12px;
+                border-radius: 20px;
+                font-size: 14px;
+                margin-bottom: 20px;
+              }
+              .animation-container {
+                background: #0d1117;
+                border-radius: 12px;
+                padding: 20px;
+                margin: 20px 0;
+              }
+              img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+              }
+              .toggle-buttons {
+                margin: 20px 0;
+              }
+              button {
+                background: #667eea;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                margin: 0 5px;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: transform 0.2s;
+              }
+              button:hover {
+                transform: translateY(-2px);
+                background: #764ba2;
+              }
+              .info {
+                margin-top: 20px;
+                color: #666;
+                font-size: 14px;
+              }
+              .timestamp {
+                font-family: monospace;
+                background: #f0f0f0;
+                padding: 4px 8px;
+                border-radius: 4px;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1>🐍 GitHub Contribution Snake</h1>
+              <div class="badge">✨ Active Development Flow</div>
+              
+              <div class="animation-container">
+                <img id="snake" src="github-contribution-grid-snake.svg" alt="Snake animation">
+              </div>
+              
+              <div class="toggle-buttons">
+                <button onclick="document.getElementById('snake').src='github-contribution-grid-snake.svg'">🌞 Light Mode</button>
+                <button onclick="document.getElementById('snake').src='github-contribution-grid-snake-dark.svg'">🌙 Dark Mode</button>
+                <button onclick="document.getElementById('snake').src='github-contribution-grid-snake.gif'">🎬 Animated GIF</button>
+              </div>
+              
+              <div class="info">
+                <p>🐍 The snake eats your contributions, creating a mesmerizing animation!</p>
+                <p>📊 Last updated: <span class="timestamp" id="timestamp">Loading...</span></p>
+                <p>💡 Tip: The more you contribute, the longer the snake grows!</p>
+              </div>
+            </div>
+            
+            <script>
+              document.getElementById('timestamp').textContent = new Date().toLocaleString();
+              setInterval(() => {
+                const img = document.getElementById('snake');
+                img.src = img.src.split('?')[0] + '?t=' + new Date().getTime();
+              }, 30000);
+            </script>
+          </body>
+          </html>
+          EOF
+
+      - name: Deploy to GitHub Pages branch
+        uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: output
           build_dir: dist
+          commit_message: "🐍 Update snake animation - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update repository with new snake
+        run: |
+          git config user.name "Flevian11"
+          git config user.email "flevianochoka19@gmail.com"
+          
+          # Copy files to root for direct access
+          cp dist/github-contribution-grid-snake.svg ./github-contribution-grid-snake.svg
+          cp dist/github-contribution-grid-snake-dark.svg ./github-contribution-grid-snake-dark.svg
+          
+          git add github-contribution-grid-snake.svg github-contribution-grid-snake-dark.svg
+          git diff --cached --quiet || git commit -m "🐍 Update snake animation - $(date -u +'%Y-%m-%d')"
+          git push --force-with-lease

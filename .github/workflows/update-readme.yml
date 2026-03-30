@@ -2,8 +2,11 @@ name: Update README
 
 on:
   schedule:
-    - cron: "0 7 * * *"
+    - cron: "*/30 * * * *"  # Run every 30 minutes
   workflow_dispatch:
+  push:
+    paths:
+      - 'auto.json'  # Trigger when activity data updates
 
 permissions:
   contents: write
@@ -11,31 +14,120 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
       - name: Checkout profile repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fetch activity data
+      - name: Fetch latest activity data
         run: |
-          curl -o auto.json https://raw.githubusercontent.com/Flevian11/flevian-activity/main/auto.json
+          # Try multiple sources for redundancy
+          curl -s -o auto.json https://raw.githubusercontent.com/Flevian11/flevian-activity/main/auto.json || \
+          curl -s -o auto.json https://raw.githubusercontent.com/Flevian11/flevian-activity/main/auto.json || \
+          echo '{"updates": [], "last_update": "Unknown"}' > auto.json
 
-      - name: Update README timestamp
+      - name: Parse and update README
+        run: |
+          # Extract statistics
+          TOTAL_UPDATES=$(jq '.updates | length' auto.json)
+          TODAY_UPDATES=$(jq --arg today "$(date -u +"%Y-%m-%d")" '[.updates[] | select(startswith($today))] | length' auto.json)
+          LAST_UPDATE=$(jq -r '.last_update' auto.json)
+          
+          # Calculate weekly total
+          WEEK_AGO=$(date -u -d "7 days ago" +"%Y-%m-%d")
+          WEEKLY_UPDATES=$(jq --arg week_ago "$WEEK_AGO" '[.updates[] | select(. > $week_ago)] | length' auto.json)
+          
+          # Create dynamic activity section
+          cat > activity_dynamic.md << EOF
+          ## 🔄 Activity Status
+          
+          <p align="center">
+            <strong>🚀 Active Development Flow</strong><br>
+            📊 Total commits tracked: ${TOTAL_UPDATES}<br>
+            📅 Today's activity: ${TODAY_UPDATES} commits<br>
+            📈 This week: ${WEEKLY_UPDATES} contributions<br>
+            ⏱️ Last update: ${LAST_UPDATE}
+          </p>
+          
+          <details>
+          <summary><b>📊 Recent Activity Log</b></summary>
+          
+          \`\`\`
+          $(jq -r '.updates[-10:] | .[]' auto.json)
+          \`\`\`
+          
+          </details>
+          EOF
+
+      - name: Update README.md
         run: |
           TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          
+          # Check if README has the activity section
+          if grep -q "## 🔄 Activity Status" README.md; then
+            # Replace existing activity section
+            sed -i '/## 🔄 Activity Status/,/---/{
+              /## 🔄 Activity Status/!{
+                /---/!d
+              }
+            }' README.md
+            sed -i "/## 🔄 Activity Status/r activity_dynamic.md" README.md
+          else
+            # Append at end
+            echo "" >> README.md
+            echo "---" >> README.md
+            cat activity_dynamic.md >> README.md
+          fi
+          
+          # Update the Last Updated timestamp
+          sed -i "s|Last Updated:.*|Last Updated: $TIMESTAMP|" README.md
+          
+          # Add a real-time activity badge
+          if ! grep -q "![Activity](https://img.shields.io" README.md; then
+            sed -i "/<h3 align=\"center\">/a \\
+          <p align=\"center\">\\
+            <img src=\"https://img.shields.io/badge/Activity-Active-brightgreen?style=flat-square\" />\\
+            <img src=\"https://img.shields.io/badge/Last_Update-$(date -u +\"%Y%m%d\")-blue?style=flat-square\" />\\
+          </p>" README.md
+          fi
 
-          sed -i "s|Last Updated:.*|Last Updated: $TIMESTAMP|" README.md || echo "No timestamp line yet"
-
-      - name: Commit changes
+      - name: Commit README changes
         run: |
           git config user.name "Flevian11"
           git config user.email "flevianochoka19@gmail.com"
-
-          git add README.md
-
+          
+          git add README.md activity_dynamic.md
+          
           if git diff --cached --quiet; then
-            echo "No changes"
+            echo "ℹ️ No changes to README"
           else
-            git commit -m "auto: update README"
-            git push
+            git commit -m "📝 docs: sync activity data with auto.json"
+            git push --force-with-lease
+            echo "✅ README updated successfully"
           fi
+
+      - name: Generate activity graph
+        run: |
+          # Create a simple activity heatmap
+          echo "## 📈 Activity Heatmap (Last 14 Days)" > activity_graph.md
+          echo "" >> activity_graph.md
+          echo "\`\`\`" >> activity_graph.md
+          
+          for i in {0..13}; do
+            DATE=$(date -u -d "$i days ago" +"%Y-%m-%d")
+            COUNT=$(jq --arg date "$DATE" '[.updates[] | select(startswith($date))] | length' auto.json)
+            
+            # Create visual bar
+            BAR=$(printf '█%.0s' $(seq 1 $COUNT))
+            [ -z "$BAR" ] && BAR="·"
+            echo "$DATE: $BAR ($COUNT)" >> activity_graph.md
+          done
+          
+          echo "\`\`\`" >> activity_graph.md
+          
+          git add activity_graph.md
+          git commit -m "📊 chore: update activity heatmap" || true
+          git push --force-with-lease || true

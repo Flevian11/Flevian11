@@ -1,6 +1,13 @@
 <h1 align="center">👋 Hi, I'm Flevian</h1>
 <h3 align="center">🚀 Software Developer | AI Builder | Systems Engineer</h3>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Active%20Development-brightgreen?style=flat-square" />
+  <img src="https://img.shields.io/badge/Focus-AI%20%26%20Automation-blue?style=flat-square" />
+  <img src="https://komarev.com/ghpvc/?username=Flevian11&style=flat-square&color=blue" alt="Profile views" />
+  <!-- Dynamic badges will be inserted here by workflow -->
+</p>
+
 ---
 
 ## 🧠 About Me
@@ -8,6 +15,7 @@
 - 🤖 Focused on AI, automation, and backend architecture  
 - 💻 Strong in fullstack development and system design  
 - 🎯 Driven by performance, clean code, and usability  
+- ⚡ **Current Streak:** Updated in real-time via GitHub Actions
 
 ---
 
@@ -16,21 +24,7 @@
   <img src="https://skillicons.dev/icons?i=php,laravel,java,python,c,cpp,dart,flutter,js,html,css,mysql,git,linux" />
 </p>
 
----
-
-## 📊 GitHub Analytics
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Flevian11&show_icons=true&theme=tokyonight" />
-  <br/>
-  <img src="https://streak-stats.demolab.com?user=Flevian11&theme=tokyonight" />
-</p>
-
----
-
-## 📈 Activity Graph
-<p align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Flevian11&theme=tokyo-night" />
-</p>
+<!-- Real-time stats -->
 
 ---
 
@@ -45,13 +39,20 @@
   <a href="https://twitter.com/Flevian11">
     <img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" />
   </a>
+  <a href="https://github.com/Flevian11">
+    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
+  </a>
 </p>
 
 ---
 
-## 🐍 Contribution Snake
+## 🐍 Contribution Snake Game
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake.svg" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake.svg">
+    <img alt="GitHub Contribution Snake" src="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake.svg">
+  </picture>
 </p>
 
 ---
@@ -63,10 +64,4 @@
 
 ---
 
-## 🔄 Activity Status
-<p align="center">
-🟢 Actively building, learning, and shipping consistently
-</p>
-
----
-### ⏱ Last Updated: 2026-03-29 07:45:56 UTC
+### ⏱ Last Updated: Dynamically updated every 30 minutes
