@@ -1,38 +1,46 @@
 <h1 align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=32&duration=3000&pause=1000&color=00F7FF&center=true&vCenter=true&width=600&lines=Hi%2C+I'm+Flevian+Ahithopel;Software+Developer;AI+Builder;Systems+Engineer" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=34&duration=2500&pause=800&color=00F7FF&center=true&vCenter=true&width=700&lines=Flevian+Ahithopel;AI+Engineer+%7C+Fullstack+Dev;Building+Real+World+Systems;Automation+%7C+Cloud+%7C+AI" />
 </h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/🚀_Status-Active_Development-00FF00?style=flat-square" />
-  <img src="https://img.shields.io/badge/🤖_Focus-AI_%26_Automation-FF6B6B?style=flat-square" />
-  <img src="https://komarev.com/ghpvc/?username=Flevian11&style=flat-square&color=blue" />
-  <img src="https://img.shields.io/github/followers/Flevian11?style=flat-square&color=purple" />
+  <img src="https://img.shields.io/badge/🚀_Status-Building_The_Future-00FF00?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/🤖_AI-Integrated_Workflows-FF6B6B?style=for-the-badge" />
+  <img src="https://komarev.com/ghpvc/?username=Flevian11&style=for-the-badge&color=blue" />
 </p>
 
 ---
 
-## 🧠 About Me
+## 🧠 Who Am I
 
 ```yaml
 name: Flevian Ahithopel
-role: Software Developer & AI Builder
-focus: AI, Automation & Backend Systems
-mission: Build systems that solve real-world problems
+role: AI Engineer & Fullstack Developer
+specialty: Automation, System Design, Scalable Platforms
+mission: Build impactful systems that solve real-world problems
+mindset: Code with purpose. Scale with intelligence.
 ```
 
 ---
 
-## ⚡ Tech Stack
+## ⚡ Tech Arsenal
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=php,laravel,java,python,c,cpp,dart,flutter,js,html,css,mysql,git,linux" />
+  <img src="https://skillicons.dev/icons?i=php,laravel,java,python,c,cpp,dart,flutter,js,react,html,css,mysql,nodejs,git,linux" />
 </p>
 
 ---
 
-## 📊 Real-Time GitHub Analytics
+## 🧬 Developer DNA
 
-### 🔥 Core Stats
+<p align="center">
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Flevian11&theme=tokyonight" />
+</p>
+
+---
+
+## 📊 Real-Time GitHub Intelligence
+
+### 🔥 Core Metrics
 
 | Metric            | Value                 |
 | ----------------- | --------------------- |
@@ -41,21 +49,21 @@ mission: Build systems that solve real-world problems
 | ⭐ Total Stars     | <!-- STARS -->        |
 | 🔱 Total Forks    | <!-- FORKS -->        |
 
-### 📦 Profile Stats
+### 📦 Profile Overview
 
 | Metric           | Value               |
 | ---------------- | ------------------- |
 | 📦 Repositories  | <!-- REPOS -->      |
 | 👥 Followers     | <!-- FOLLOWERS -->  |
 | 📈 Contributions | <!-- CONTRIB -->    |
-| 🎯 Profile Score | <!-- SCORE --> /100 |
+| 🎯 Dev Score     | <!-- SCORE --> /100 |
 
 ---
 
-## 📈 Contribution Stats
+## 📈 Performance Graphs
 
 <p align="center">
-  <img width="49%" src="https://github-readme-stats.vercel.app/api?username=Flevian11&show_icons=true&theme=tokyonight&hide_border=true" />
+  <img width="49%" src="https://github-readme-stats.vercel.app/api?username=Flevian11&show_icons=true&theme=tokyonight&hide_border=true&count_private=true" />
   <img width="49%" src="https://github-readme-streak-stats.herokuapp.com/?user=Flevian11&theme=tokyonight&hide_border=true" />
 </p>
 
@@ -70,31 +78,38 @@ mission: Build systems that solve real-world problems
 
 <!-- TOP_REPOS_START -->
 
-Loading...
+Loading elite repositories...
 
 <!-- TOP_REPOS_END -->
 
 ---
 
-## 🚀 Recent Activity
+## 🚀 Live Activity Feed
 
 <!-- RECENT_ACTIVITY_START -->
 
-Loading...
+Loading real-time activity...
 
 <!-- RECENT_ACTIVITY_END -->
 
 ---
 
-## 🐍 Contribution Snake
+## 🐍 Contribution Snake (Live)
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake.svg" width="800"/>
+  <img src="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake-dark.svg" width="800"/>
 </p>
 
 ---
 
-## 🌍 Connect With Me
+## 🧠 AI Insights (Auto Branding)
+
+> You are building a **high-activity, automation-driven GitHub profile**.
+> Focus consistency → your graph becomes your portfolio.
+
+---
+
+## 🌍 Connect & Collaborate
 
 <p align="center">
   <a href="mailto:flevianochoka19@gmail.com">
@@ -110,18 +125,19 @@ Loading...
 
 ---
 
-## ⚡ Dev Mindset
+## ⚡ Dev Philosophy
 
-* Build systems, not just features
-* Clean code > clever code
-* Consistency beats intensity
+* Build systems, not scripts
+* Automate everything repetitive
+* Design for scale from day one
+* Consistency > motivation
 
 ---
 
-## ⏱ Last Updated
+## ⏱ System Timestamp
 
 **<!-- LAST_UPDATED -->**
 
-<div align="center">
-  <sub>⚡ Auto-updated every 30 minutes via GitHub Actions</sub>
-</div>
+<p align="center">
+  <sub>⚡ Fully automated • updates every 30 minutes • powered by GitHub Actions</sub>
+</p>
