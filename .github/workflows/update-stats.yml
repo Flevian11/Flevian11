@@ -29,9 +29,20 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install -g axios moment
+          # Initialize package.json if it doesn't exist
+          if [ ! -f package.json ]; then
+            npm init -y
+          fi
+          
+          # Install required packages locally
+          npm install axios moment
+          
+          # Install system packages
           sudo apt-get update -qq
           sudo apt-get install -y jq curl
+          
+          # Verify installation
+          echo "✅ Dependencies installed successfully"
 
       - name: Fetch real-time GitHub stats
         id: fetch_stats
@@ -48,126 +59,129 @@ jobs:
           async function fetchGitHubStats() {
             const headers = { Authorization: `token ${token}` };
             
-            // Fetch user data
-            const userRes = await axios.get(`https://api.github.com/users/${username}`, { headers });
-            const user = userRes.data;
-            
-            // Fetch repos
-            const reposRes = await axios.get(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`, { headers });
-            const repos = reposRes.data;
-            
-            // Fetch contributions calendar data
-            const contribRes = await axios.get(`https://github-contributions-api.jogruber.de/v4/${username}?y=last`, { headers: { 'Accept': 'application/json' } });
-            
-            // Calculate streak
-            let currentStreak = 0;
-            let longestStreak = 0;
-            let tempStreak = 0;
-            let lastContributionDate = null;
-            let today = moment().startOf('day');
-            
-            if (contribRes.data && contribRes.data.contributions) {
-              const contributions = contribRes.data.contributions;
+            try {
+              // Fetch user data
+              const userRes = await axios.get(`https://api.github.com/users/${username}`, { headers });
+              const user = userRes.data;
               
-              // Process in reverse chronological order
-              for (let i = contributions.length - 1; i >= 0; i--) {
-                const day = contributions[i];
-                const date = moment(day.date);
-                const count = day.count;
+              // Fetch repos
+              const reposRes = await axios.get(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`, { headers });
+              const repos = reposRes.data;
+              
+              // Fetch contributions calendar data
+              let contribData = { contributions: [], total: { lastYear: 0 } };
+              try {
+                const contribRes = await axios.get(`https://github-contributions-api.jogruber.de/v4/${username}?y=last`);
+                contribData = contribRes.data;
+              } catch (e) {
+                console.log('Could not fetch contribution data, using defaults');
+              }
+              
+              // Calculate streak
+              let currentStreak = 0;
+              let longestStreak = 0;
+              let tempStreak = 0;
+              let lastContributionDate = null;
+              let today = moment().startOf('day');
+              
+              if (contribData.contributions && contribData.contributions.length > 0) {
+                const contributions = contribData.contributions;
                 
-                if (count > 0) {
-                  if (lastContributionDate === null || date.isSame(lastContributionDate.clone().add(1, 'day'), 'day')) {
-                    currentStreak++;
-                    tempStreak++;
+                for (let i = contributions.length - 1; i >= 0; i--) {
+                  const day = contributions[i];
+                  const date = moment(day.date);
+                  const count = day.count;
+                  
+                  if (count > 0) {
+                    if (lastContributionDate === null || date.isSame(lastContributionDate.clone().add(1, 'day'), 'day')) {
+                      currentStreak++;
+                      tempStreak++;
+                    } else {
+                      tempStreak = 1;
+                    }
+                    lastContributionDate = date;
+                    longestStreak = Math.max(longestStreak, tempStreak);
                   } else {
-                    tempStreak = 1;
-                  }
-                  lastContributionDate = date;
-                  longestStreak = Math.max(longestStreak, tempStreak);
-                } else {
-                  if (lastContributionDate && !date.isSame(lastContributionDate, 'day')) {
-                    tempStreak = 0;
+                    if (lastContributionDate && !date.isSame(lastContributionDate, 'day')) {
+                      tempStreak = 0;
+                    }
                   }
                 }
               }
               
-              // Check if today has contributions
-              const todayContrib = contributions.find(c => moment(c.date).isSame(today, 'day'));
-              if (!todayContrib || todayContrib.count === 0) {
-                // If no contribution today, streak might be broken unless we check yesterday
-                const yesterday = moment().subtract(1, 'day');
-                const yesterdayContrib = contributions.find(c => moment(c.date).isSame(yesterday, 'day'));
-                if (!yesterdayContrib || yesterdayContrib.count === 0) {
-                  currentStreak = 0;
+              // Calculate repo stats
+              const totalStars = repos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
+              const totalForks = repos.reduce((sum, repo) => sum + repo.forks_count, 0);
+              const totalWatchers = repos.reduce((sum, repo) => sum + repo.watchers_count, 0);
+              const topLanguages = {};
+              repos.forEach(repo => {
+                if (repo.language) {
+                  topLanguages[repo.language] = (topLanguages[repo.language] || 0) + 1;
                 }
+              });
+              
+              const topLangArray = Object.entries(topLanguages)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5)
+                .map(([lang, count]) => ({ lang, count }));
+              
+              // Get recent activity
+              let recentActivity = [];
+              try {
+                const eventsRes = await axios.get(`https://api.github.com/users/${username}/events/public?per_page=50`, { headers });
+                recentActivity = eventsRes.data.slice(0, 10).map(event => ({
+                  type: event.type,
+                  repo: event.repo.name,
+                  created_at: event.created_at,
+                  payload: event.payload
+                }));
+              } catch (e) {
+                console.log('Could not fetch events');
               }
+              
+              const stats = {
+                user: {
+                  name: user.name || username,
+                  login: user.login,
+                  bio: user.bio,
+                  followers: user.followers,
+                  following: user.following,
+                  public_repos: user.public_repos,
+                  created_at: user.created_at,
+                  updated_at: user.updated_at
+                },
+                contributions: {
+                  current_streak: currentStreak,
+                  longest_streak: longestStreak,
+                  total_contributions_this_year: contribData.total?.lastYear || 0
+                },
+                repositories: {
+                  total: user.public_repos,
+                  total_stars: totalStars,
+                  total_forks: totalForks,
+                  total_watchers: totalWatchers,
+                  top_languages: topLangArray,
+                  most_starred: repos.sort((a, b) => b.stargazers_count - a.stargazers_count).slice(0, 5),
+                  recently_updated: repos.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)).slice(0, 5)
+                },
+                activity: {
+                  recent: recentActivity,
+                  last_updated: new Date().toISOString()
+                }
+              };
+              
+              fs.writeFileSync('github_stats.json', JSON.stringify(stats, null, 2));
+              console.log('✅ Stats fetched successfully');
+            } catch (error) {
+              console.error('Error fetching stats:', error.message);
+              process.exit(1);
             }
-            
-            // Calculate repo stats
-            const totalStars = repos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
-            const totalForks = repos.reduce((sum, repo) => sum + repo.forks_count, 0);
-            const totalWatchers = repos.reduce((sum, repo) => sum + repo.watchers_count, 0);
-            const topLanguages = {};
-            repos.forEach(repo => {
-              if (repo.language) {
-                topLanguages[repo.language] = (topLanguages[repo.language] || 0) + 1;
-              }
-            });
-            
-            const topLangArray = Object.entries(topLanguages)
-              .sort((a, b) => b[1] - a[1])
-              .slice(0, 5)
-              .map(([lang, count]) => ({ lang, count }));
-            
-            // Get recent activity
-            const eventsRes = await axios.get(`https://api.github.com/users/${username}/events/public?per_page=50`, { headers });
-            const events = eventsRes.data;
-            
-            const recentActivity = events.slice(0, 10).map(event => ({
-              type: event.type,
-              repo: event.repo.name,
-              created_at: event.created_at,
-              payload: event.payload
-            }));
-            
-            const stats = {
-              user: {
-                name: user.name || username,
-                login: user.login,
-                bio: user.bio,
-                followers: user.followers,
-                following: user.following,
-                public_repos: user.public_repos,
-                created_at: user.created_at,
-                updated_at: user.updated_at
-              },
-              contributions: {
-                current_streak: currentStreak,
-                longest_streak: longestStreak,
-                total_contributions_this_year: contribRes.data?.total?.lastYear || 0
-              },
-              repositories: {
-                total: user.public_repos,
-                total_stars: totalStars,
-                total_forks: totalForks,
-                total_watchers: totalWatchers,
-                top_languages: topLangArray,
-                most_starred: repos.sort((a, b) => b.stargazers_count - a.stargazers_count).slice(0, 5),
-                recently_updated: repos.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)).slice(0, 5)
-              },
-              activity: {
-                recent: recentActivity,
-                last_updated: new Date().toISOString()
-              }
-            };
-            
-            fs.writeFileSync('github_stats.json', JSON.stringify(stats, null, 2));
-            console.log('Stats fetched successfully');
           }
           
-          fetchGitHubStats().catch(console.error);
+          fetchGitHubStats();
           EOF
           
+          # Run the script with node_modules available
           node fetch_stats.js
 
       - name: Generate dynamic badges
