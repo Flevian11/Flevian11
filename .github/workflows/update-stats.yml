@@ -343,14 +343,9 @@ jobs:
             fi
           fi
           
-          # Update the Last Updated timestamp
-          if grep -q "Last Updated:" README.md; then
-            sed -i "s|Last Updated:.*|Last Updated: ${LAST_UPDATED}|" README.md
-          else
-            echo "" >> README.md
-            echo "---" >> README.md
-            echo "### ⏱ Last Updated: ${LAST_UPDATED}" >> README.md
-          fi
+          # Update the Last Updated timestamp with actual time
+          LAST_UPDATED=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          sed -i "s|<span id=\"last-updated\">.*</span>|<span id=\"last-updated\">${LAST_UPDATED}</span>|" README.md
           
           echo "✅ README updated with real-time stats"
 

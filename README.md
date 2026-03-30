@@ -64,4 +64,4 @@
 
 ---
 
-### ⏱ Last Updated: Dynamically updated every 30 minutes
+### ⏱ Last Updated: <span id="last-updated">Fetching...</span>
