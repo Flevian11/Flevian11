@@ -3,10 +3,10 @@
 </h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/🚀_Status-Active_Development-00FF00?style=flat-square&logo=github&logoColor=white" />
-  <img src="https://img.shields.io/badge/🤖_Focus-AI_%26_Automation-FF6B6B?style=flat-square" />
-  <img src="https://komarev.com/ghpvc/?username=Flevian11&style=flat-square&color=blue&label=Profile+Views" alt="Profile views" />
-  <img src="https://img.shields.io/github/followers/Flevian11?style=flat-square&logo=github&color=purple" alt="Followers" />
+  <img src="https://img.shields.io/badge/Status-Active%20Development-brightgreen?style=for-the-badge&logo=github" />
+  <img src="https://img.shields.io/badge/Focus-AI%20%26%20Automation-blue?style=for-the-badge" />
+  <img src="https://komarev.com/ghpvc/?username=Flevian11&style=for-the-badge&color=blue" alt="Profile views" />
+  <img src="https://img.shields.io/github/followers/Flevian11?style=for-the-badge&logo=github&color=purple" alt="Followers" />
 </p>
 
 ---
@@ -21,52 +21,7 @@ current_focus: AI automation & backend architecture
 philosophy: "Build systems that solve real problems, not just code that runs"
 🔧 Building scalable systems and real-world solutions
 
-<<<<<<< HEAD
 🤖 Focused on AI, automation, and backend architecture
-=======
-## ⚡ Tech Stack
-## 📊 Real-time GitHub Analytics
-
-<p align="center">
-  <img src="https://img.shields.io/badge/🔥_Current_Streak-1_days-orange?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/🏆_Longest_Streak-1_days-gold?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/⭐_Total_Stars-3-blue?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/🔱_Total_Forks-0-green?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/📦_Repositories-23-purple?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/👥_Followers-0-brightgreen?style=for-the-badge" />
-</p>
-
-### 🔥 Contribution Streaks
-<p align="center">
-  <strong>Current Streak:</strong> 1 days 🔥<br>
-  <strong>Longest Streak:</strong> 1 days 🏆
-</p>
-
-### 📦 Repository Statistics
-<p align="center">
-  <strong>Total Repositories:</strong> 23<br>
-  <strong>⭐ Total Stars Earned:</strong> 3<br>
-  <strong>🔱 Total Forks:</strong> 0<br>
-  <strong>👥 GitHub Followers:</strong> 0
-</p>
-
-### 🏆 Top Starred Repositories
-* 1 ⭐ [arduino-led-simulation](https://github.com/Flevian11/arduino-led-simulation) - Arduino Project LED Simulation (Beginner)
-* 1 ⭐ [arduino-traffic-light-simulation](https://github.com/Flevian11/arduino-traffic-light-simulation) - Arduino Project on Ttraffic Lights Ssimulation
-* 1 ⭐ [fle-web](https://github.com/Flevian11/fle-web) - No description
-* 0 ⭐ [Flevian11](https://github.com/Flevian11/Flevian11) - Nothing much here… just fullstack development, system architecture, and automation with Laravel, Flutter, and the usual “it works in production” magic.
-* 0 ⭐ [flevian-activity](https://github.com/Flevian11/flevian-activity) - Automated activity engine for maintaining consistent GitHub contributions using scheduled workflows, randomized commits, and realistic development patterns
-
-### 🚀 Recently Updated Repositories
-* 📦 [Flevian11](https://github.com/Flevian11/Flevian11) - Updated: 2026-03-30
-* 📦 [flevian-activity](https://github.com/Flevian11/flevian-activity) - Updated: 2026-03-30
-* 📦 [mpesa-simulator](https://github.com/Flevian11/mpesa-simulator) - Updated: 2026-03-30
-* 📦 [whisper](https://github.com/Flevian11/whisper) - Updated: 2026-03-25
-* 📦 [Beribakes](https://github.com/Flevian11/Beribakes) - Updated: 2026-03-11
-<p align="center">
-  <img src="https://skillicons.dev/icons?i=php,laravel,java,python,c,cpp,dart,flutter,js,html,css,mysql,git,linux" />
-</p>
->>>>>>> f3a2025e7d360f15fbc34a041a1b50124c1cde4c
 
 💻 Strong in fullstack development and system design
 
@@ -77,40 +32,39 @@ philosophy: "Build systems that solve real problems, not just code that runs"
 📊 Real-time GitHub Analytics
 <div align="center">
 🔥 Current Streak	🏆 Longest Streak	⭐ Total Stars	🔱 Total Forks
-<!-- STREAK --> days	<!-- LONGEST --> days	<!-- STARS -->	<!-- FORKS -->
+0 days	0 days	0	0
 </div><div align="center">
-📦 Repositories	👥 Followers	📈 Contributions (2024)	🎯 Profile Score
-<!-- REPOS -->	<!-- FOLLOWERS -->	<!-- CONTRIB -->	<!-- SCORE -->/100
+📦 Repositories	👥 Followers	📈 Profile Score	🎯 Activity Level
+0	0	0/100	🟢 Active
 </div>
 📈 Contribution Activity
 <p align="center"> <img width="49%" src="https://github-readme-stats.vercel.app/api?username=Flevian11&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=00F7FF&icon_color=00F7FF&include_all_commits=true&count_private=true" /> <img width="49%" src="https://github-readme-streak-stats.herokuapp.com/?user=Flevian11&theme=tokyonight&hide_border=true&background=0D1117&ring=00F7FF&fire=FF6B6B&currStreakLabel=00F7FF" /> </p><p align="center"> <img width="49%" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Flevian11&layout=compact&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=00F7FF" /> <img width="49%" src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=Flevian11&theme=tokyonight" /> </p>
-🏆 Top Repositories
-<div align="center"><!-- TOP_REPOS_START -->
-Loading repositories...
-
-<!-- TOP_REPOS_END --></div>
-🚀 Recent Activity
-<div align="center"><!-- RECENT_ACTIVITY_START -->
-Loading recent activity...
-
-<!-- RECENT_ACTIVITY_END --></div>
+🏆 Top Starred Repositories
+<div align="center">
+Repository	Stars	Forks	Description
+Loading repositories...	-	-	-
+</div>
+🚀 Recent GitHub Activity
+<div align="center">
+Activity	Repository	Time
+Loading recent activity...	-	-
+</div>
 📊 Activity Heatmap
 <div align="center">
 yaml
 Last 30 Days Contribution Pattern:
-Mon  ░ ░ █ █ █ ▓ ▓  (12 commits)
-Tue  █ █ ▓ ▓ ░ ░ █  (8 commits)
-Wed  █ ▓ ▓ █ █ ░ ░  (10 commits)
-Thu  ░ ░ █ █ ▓ ▓ █  (7 commits)
-Fri  █ █ ▓ ▓ ░ ░ █  (9 commits)
-Sat  ▓ ▓ █ █ ░ ░ █  (5 commits)
-Sun  ░ ░ █ █ ▓ ▓ ░  (3 commits)
+Mon  ░ ░ █ █ █ ▓ ▓  (0 commits)
+Tue  █ █ ▓ ▓ ░ ░ █  (0 commits)
+Wed  █ ▓ ▓ █ █ ░ ░  (0 commits)
+Thu  ░ ░ █ █ ▓ ▓ █  (0 commits)
+Fri  █ █ ▓ ▓ ░ ░ █  (0 commits)
+Sat  ▓ ▓ █ █ ░ ░ █  (0 commits)
+Sun  ░ ░ █ █ ▓ ▓ ░  (0 commits)
 
-<<<<<<< HEAD
 Legend: ░ = 1-2  ▒ = 3-5  ▓ = 6-9  █ = 10+
 </div>
 🐍 Contribution Snake Game
-<p align="center"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake-dark.svg"> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake.svg"> <img alt="GitHub Contribution Snake" src="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake.svg" width="800"> </picture> </p><p align="center"> <em>🐍 The snake eats your contributions - more activity = longer snake!</em> </p>
+<p align="center"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake-dark.svg"> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake.svg"> <img alt="GitHub Contribution Snake" src="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake.svg" width="800"> </picture> </p><p align="center"> <em>🐍 The snake eats your contributions - more activity = longer snake!</em> </p><details> <summary><b>🎮 Interactive Snake Animation</b></summary> <br> <p align="center"> <a href="https://flevian11.github.io/Flevian11/preview.html"> <img src="https://img.shields.io/badge/🎬-View_Interactive_Animation-ff69b4?style=for-the-badge" /> </a> </p> <p align="center"> <strong>🔥 Features:</strong><br> • Light/Dark mode toggle<br> • Animated GIF version<br> • Real-time updates<br> • Responsive design </p> </details>
 🌍 Connect With Me
 <p align="center"> <a href="mailto:flevianochoka19@gmail.com"> <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" /> </a> <a href="https://portfolio.yaliid.cloud"> <img src="https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white" /> </a> <a href="https://twitter.com/Flevian11"> <img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" /> </a> <a href="https://linkedin.com/in/flevian11"> <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /> </a> <a href="https://github.com/Flevian11"> <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /> </a> </p>
 ⚡ Dev Mindset
@@ -121,17 +75,5 @@ diff
 + "Consistency beats intensity. Small steps every day create massive results."
 </div>
 <div align="center"> <img src="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake.svg" width="2" height="2" /> </div>
-⏱ Last Updated: <!-- LAST_UPDATED -->
-<div align="center"> <sub>✨ Stay Focused Dev ✨</sub> </div> 
-=======
----
-
-## ⚡ Dev Mindset
-<p align="center">
-  <i>"Build systems that solve real problems, not just code that runs."</i>
-</p>
-
----
-
-### ⏱ Last Updated: 2026-03-30 08:32:34 UTC
->>>>>>> f3a2025e7d360f15fbc34a041a1b50124c1cde4c
+⏱ Last Updated: Loading...
+<div align="center"> <sub>✨ Automatically updated every 30 minutes via GitHub Actions ✨</sub> </div> ```
