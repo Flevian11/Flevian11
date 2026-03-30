@@ -45,24 +45,6 @@ mindset: Code with purpose. Scale with intelligence.
   <img width="49%" src="https://github-readme-streak-stats.herokuapp.com/?user=Flevian11&theme=tokyonight&hide_border=true" />
 </p>
 
-<p align="center">
-  <img width="49%" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Flevian11&layout=compact&theme=tokyonight&hide_border=true" />
-  <img width="49%" src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=Flevian11&theme=tokyonight" />
-</p>
-
----
-
-## 🏆 Top Repositories
-
-<!-- TOP_REPOS_START -->
-| Repository | Stars | Forks | Description |
-| [arduino-led-simulation](https://github.com/Flevian11/arduino-led-simulation) | ⭐ 1 | 🔱 0 | Arduino Project LED Simulation (Beginner) |
-| [arduino-traffic-light-simulation](https://github.com/Flevian11/arduino-traffic-light-simulation) | ⭐ 1 | 🔱 0 | Arduino Project on Ttraffic Lights Ssimulation |
-| [fle-web](https://github.com/Flevian11/fle-web) | ⭐ 1 | 🔱 0 | No description |
-| [achievers](https://github.com/Flevian11/achievers) | ⭐ 0 | 🔱 0 | a small scale sacco group  |
-| [achieversfull](https://github.com/Flevian11/achieversfull) | ⭐ 0 | 🔱 0 | No description |
-<!-- TOP_REPOS_END -->
-
 ---
 
 ## 🐍 Contribution Snake (Live)
