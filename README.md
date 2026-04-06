@@ -5,7 +5,6 @@
   <img src="https://img.shields.io/badge/🤖_AI-Integrated_Workflows-FF6B6B?style=for-the-badge" />
   <img src="https://komarev.com/ghpvc/?username=Flevian11&style=for-the-badge&color=blue" />
 </p>
----
 
 🧠 Who Am I
 
@@ -16,21 +15,17 @@ mission: Build impactful systems that solve real-world problems
 mindset: Code with purpose. Scale with intelligence.
 
 
----
-
 ⚡ Tech Arsenal
 
 <p align="center">
   <img src="https://skillicons.dev/icons?i=php,laravel,java,python,c,cpp,dart,flutter,js,react,html,css,mysql,nodejs,git,linux" />
 </p>
----
 
 🧬 Developer DNA
 
 <p align="center">
   <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Flevian11&theme=tokyonight" />
 </p>
----
 
 📈 Performance Graphs
 
@@ -38,14 +33,13 @@ mindset: Code with purpose. Scale with intelligence.
   <img width="49%" src="https://github-readme-stats.vercel.app/api?username=Flevian11&show_icons=true&theme=tokyonight&hide_border=true&count_private=true" />
   <img width="49%" src="https://github-readme-streak-stats.herokuapp.com/?user=Flevian11&theme=tokyonight&hide_border=true" />
 </p>
----
+		
 
 🐍 Contribution Snake (Live)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Flevian11/Flevian11/output/github-contribution-grid-snake.svg" width="800"/>
 </p>
----
 
 🌍 Connect & Collaborate
 
@@ -60,7 +54,6 @@ mindset: Code with purpose. Scale with intelligence.
     <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
   </a>
 </p>
----
 
 ⚡ Dev Philosophy
 
@@ -74,460 +67,9 @@ Consistency > motivation
 
 
 
----
 
 🕒 System Timestamp
 
 <!-- LAST_UPDATED --> 2026-04-06 17:03:25 EAT
   <sub>⚡ Auto-updated every 30 minutes • unlike your motivation, this never stops</sub>
 </p>
-
----
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
-## 🔄 Activity Status
-## 🔄 Activity Status
-
-<p align="center">
-  <strong>🚀 Active Development Flow</strong><br>
-  📊 Total commits tracked: 129<br>
-  📅 Today's activity: 6 commits<br>
-  📈 This week: 72 contributions<br>
-  ⏱️ Last update: 2026-04-06 13:35:23
-</p>
-
-<details>
-<summary><b>📊 Recent Activity Log</b></summary>
-
-```
-2026-04-05 16:56:36
-2026-04-05 20:47:21
-2026-04-05 21:45:02
-2026-04-05 22:40:02
-2026-04-06 03:29:42
-2026-04-06 05:47:15
-2026-04-06 08:03:31
-2026-04-06 09:23:57
-2026-04-06 11:59:32
-2026-04-06 13:35:23
-```
-
-</details>
