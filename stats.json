@@ -1,7 +1,7 @@
 {
   "streak": 0,
   "longest_streak": 0,
-  "stars": 4,
+  "stars": 5,
   "forks": 0,
   "repos": 23,
   "followers": 0,
@@ -30,18 +30,18 @@
       "url": "https://github.com/Flevian11/fle-web"
     },
     {
+      "name": "Flevian11",
+      "stars": 1,
+      "forks": 0,
+      "description": "Nothing much here… just fullstack development, system architecture, and automation with Laravel, Flutter, and the usual “it works in production” magic.",
+      "url": "https://github.com/Flevian11/Flevian11"
+    },
+    {
       "name": "mpesa-simulator",
       "stars": 1,
       "forks": 0,
       "description": "A console-based M-Pesa simulator  Users (phone + PIN) Wallet (balance) Agents (deposit/withdraw) ATM (withdraw with PIN) Transactions log",
       "url": "https://github.com/Flevian11/mpesa-simulator"
-    },
-    {
-      "name": "achievers",
-      "stars": 0,
-      "forks": 0,
-      "description": "a small scale sacco group ",
-      "url": "https://github.com/Flevian11/achievers"
     }
   ],
   "recent_activity": [
