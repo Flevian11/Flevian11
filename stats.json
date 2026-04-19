@@ -3,10 +3,10 @@
   "longest_streak": 0,
   "stars": 9,
   "forks": 0,
-  "repos": 23,
+  "repos": 24,
   "followers": 1,
   "contributions": 0,
-  "score": 10,
+  "score": 11,
   "top_repos": [
     {
       "name": "arduino-led-simulation",
@@ -46,6 +46,11 @@
   ],
   "recent_activity": [
     {
+      "action": "✨ Created",
+      "repo": "Flevian11/synergy",
+      "date": "a minute ago"
+    },
+    {
       "action": "📝 Pushed to",
       "repo": "Flevian11/Flevian11",
       "date": "4 days ago"
@@ -73,11 +78,6 @@
     {
       "action": "⭐ Starred",
       "repo": "Flevian11/mpesa-simulator",
-      "date": "20 days ago"
-    },
-    {
-      "action": "📝 Pushed to",
-      "repo": "Flevian11/Flevian11",
       "date": "20 days ago"
     },
     {
