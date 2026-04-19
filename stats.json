@@ -1,33 +1,40 @@
 {
   "streak": 0,
   "longest_streak": 0,
-  "stars": 5,
+  "stars": 9,
   "forks": 0,
   "repos": 23,
-  "followers": 0,
+  "followers": 1,
   "contributions": 0,
-  "score": 8,
+  "score": 10,
   "top_repos": [
     {
       "name": "arduino-led-simulation",
-      "stars": 1,
+      "stars": 2,
       "forks": 0,
       "description": "Arduino Project LED Simulation (Beginner)",
       "url": "https://github.com/Flevian11/arduino-led-simulation"
     },
     {
       "name": "arduino-traffic-light-simulation",
-      "stars": 1,
+      "stars": 2,
       "forks": 0,
       "description": "Arduino Project on Ttraffic Lights Ssimulation",
       "url": "https://github.com/Flevian11/arduino-traffic-light-simulation"
     },
     {
       "name": "fle-web",
-      "stars": 1,
+      "stars": 2,
       "forks": 0,
       "description": "No description",
       "url": "https://github.com/Flevian11/fle-web"
+    },
+    {
+      "name": "mpesa-simulator",
+      "stars": 2,
+      "forks": 0,
+      "description": "A console-based M-Pesa simulator  Users (phone + PIN) Wallet (balance) Agents (deposit/withdraw) ATM (withdraw with PIN) Transactions log",
+      "url": "https://github.com/Flevian11/mpesa-simulator"
     },
     {
       "name": "Flevian11",
@@ -35,13 +42,6 @@
       "forks": 0,
       "description": "Nothing much here… just fullstack development, system architecture, and automation with Laravel, Flutter, and the usual “it works in production” magic.",
       "url": "https://github.com/Flevian11/Flevian11"
-    },
-    {
-      "name": "mpesa-simulator",
-      "stars": 1,
-      "forks": 0,
-      "description": "A console-based M-Pesa simulator  Users (phone + PIN) Wallet (balance) Agents (deposit/withdraw) ATM (withdraw with PIN) Transactions log",
-      "url": "https://github.com/Flevian11/mpesa-simulator"
     }
   ],
   "recent_activity": [
