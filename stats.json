@@ -1,12 +1,12 @@
 {
   "streak": 0,
   "longest_streak": 0,
-  "stars": 9,
+  "stars": 8,
   "forks": 0,
   "repos": 24,
   "followers": 1,
   "contributions": 0,
-  "score": 11,
+  "score": 10,
   "top_repos": [
     {
       "name": "arduino-led-simulation",
@@ -23,18 +23,18 @@
       "url": "https://github.com/Flevian11/arduino-traffic-light-simulation"
     },
     {
-      "name": "fle-web",
-      "stars": 2,
-      "forks": 0,
-      "description": "No description",
-      "url": "https://github.com/Flevian11/fle-web"
-    },
-    {
       "name": "mpesa-simulator",
       "stars": 2,
       "forks": 0,
       "description": "A console-based M-Pesa simulator  Users (phone + PIN) Wallet (balance) Agents (deposit/withdraw) ATM (withdraw with PIN) Transactions log",
       "url": "https://github.com/Flevian11/mpesa-simulator"
+    },
+    {
+      "name": "fle-web",
+      "stars": 1,
+      "forks": 0,
+      "description": "No description",
+      "url": "https://github.com/Flevian11/fle-web"
     },
     {
       "name": "Flevian11",
@@ -83,7 +83,7 @@
     {
       "action": "📝 Pushed to",
       "repo": "Flevian11/Flevian11",
-      "date": "19 days ago"
+      "date": "20 days ago"
     },
     {
       "action": "⭐ Starred",
