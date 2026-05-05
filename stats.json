@@ -1,12 +1,12 @@
 {
   "streak": 0,
   "longest_streak": 0,
-  "stars": 8,
+  "stars": 15,
   "forks": 0,
   "repos": 25,
   "followers": 1,
   "contributions": 0,
-  "score": 11,
+  "score": 13,
   "top_repos": [
     {
       "name": "arduino-led-simulation",
@@ -30,18 +30,18 @@
       "url": "https://github.com/Flevian11/mpesa-simulator"
     },
     {
-      "name": "fle-web",
+      "name": "ai-certificate-parser",
       "stars": 1,
       "forks": 0,
-      "description": "No description",
-      "url": "https://github.com/Flevian11/fle-web"
+      "description": "AI Certificate Parser + Legal Doc Generator",
+      "url": "https://github.com/Flevian11/ai-certificate-parser"
     },
     {
-      "name": "Flevian11",
+      "name": "Beribakes",
       "stars": 1,
       "forks": 0,
-      "description": "Nothing much here… just fullstack development, system architecture, and automation with Laravel, Flutter, and the usual “it works in production” magic.",
-      "url": "https://github.com/Flevian11/Flevian11"
+      "description": "The BeriBakes Bakery Management System automates bakery operations that are traditionally handled manually. It allows customers to browse bakery products, add items to a cart, and place orders online while administrators manage the business through a centralized dashboard.",
+      "url": "https://github.com/Flevian11/Beribakes"
     }
   ],
   "recent_activity": [
