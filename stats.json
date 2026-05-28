@@ -1,9 +1,9 @@
 {
   "streak": 0,
   "longest_streak": 0,
-  "stars": 15,
+  "stars": 14,
   "forks": 0,
-  "repos": 25,
+  "repos": 24,
   "followers": 1,
   "contributions": 0,
   "score": 13,
@@ -30,18 +30,18 @@
       "url": "https://github.com/Flevian11/mpesa-simulator"
     },
     {
-      "name": "ai-certificate-parser",
-      "stars": 1,
-      "forks": 0,
-      "description": "AI Certificate Parser + Legal Doc Generator",
-      "url": "https://github.com/Flevian11/ai-certificate-parser"
-    },
-    {
       "name": "Beribakes",
       "stars": 1,
       "forks": 0,
       "description": "The BeriBakes Bakery Management System automates bakery operations that are traditionally handled manually. It allows customers to browse bakery products, add items to a cart, and place orders online while administrators manage the business through a centralized dashboard.",
       "url": "https://github.com/Flevian11/Beribakes"
+    },
+    {
+      "name": "fle-web",
+      "stars": 1,
+      "forks": 0,
+      "description": "No description",
+      "url": "https://github.com/Flevian11/fle-web"
     }
   ],
   "recent_activity": [
