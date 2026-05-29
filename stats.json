@@ -1,10 +1,10 @@
 {
   "streak": 0,
   "longest_streak": 0,
-  "stars": 14,
+  "stars": 15,
   "forks": 0,
   "repos": 24,
-  "followers": 1,
+  "followers": 2,
   "contributions": 0,
   "score": 13,
   "top_repos": [
@@ -30,21 +30,36 @@
       "url": "https://github.com/Flevian11/mpesa-simulator"
     },
     {
+      "name": "whisper",
+      "stars": 2,
+      "forks": 0,
+      "description": "Whisper is a real-time encrypted messaging prototype ",
+      "url": "https://github.com/Flevian11/whisper"
+    },
+    {
       "name": "Beribakes",
       "stars": 1,
       "forks": 0,
       "description": "The BeriBakes Bakery Management System automates bakery operations that are traditionally handled manually. It allows customers to browse bakery products, add items to a cart, and place orders online while administrators manage the business through a centralized dashboard.",
       "url": "https://github.com/Flevian11/Beribakes"
-    },
-    {
-      "name": "fle-web",
-      "stars": 1,
-      "forks": 0,
-      "description": "No description",
-      "url": "https://github.com/Flevian11/fle-web"
     }
   ],
   "recent_activity": [
+    {
+      "action": "⭐ Starred",
+      "repo": "microsoft/markitdown",
+      "date": "2 hours ago"
+    },
+    {
+      "action": "⭐ Starred",
+      "repo": "harry0703/MoneyPrinterTurbo",
+      "date": "2 hours ago"
+    },
+    {
+      "action": "⭐ Starred",
+      "repo": "Flevian11/whisper",
+      "date": "2 hours ago"
+    },
     {
       "action": "📝 Pushed to",
       "repo": "Flevian11/Flevian11",
