@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-08-17T14:18:07.174Z",
+  "generated_at": "2026-08-17T14:49:32.295Z",
   "username": "Flevian11",
   "streak": 0,
   "longest_streak": 0,
   "stars": 16,
   "forks": 0,
   "repos": 25,
-  "followers": 15,
+  "followers": 14,
   "contributions": 0,
   "score": 18,
   "top_repos": [
@@ -39,23 +39,23 @@
       "url": "https://github.com/Flevian11/mpesa-simulator"
     },
     {
-      "name": "Flevian11",
+      "name": "flevian-activity",
       "stars": 1,
       "forks": 0,
-      "description": "Nothing much here… just fullstack development, system architecture, and automation with Laravel, Flutter, and the usual “it works in production” magic.",
-      "url": "https://github.com/Flevian11/Flevian11"
+      "description": "Automated activity engine for maintaining consistent GitHub contributions using scheduled workflows, randomized commits, and realistic development patterns",
+      "url": "https://github.com/Flevian11/flevian-activity"
     }
   ],
   "recent_activity": [
     {
       "action": "📝 Pushed to",
       "repo": "Flevian11/Flevian11",
-      "date": "3 hours ago"
+      "date": "4 hours ago"
     },
     {
       "action": "📝 Pushed to",
       "repo": "Flevian11/flevian-activity",
-      "date": "3 hours ago"
+      "date": "4 hours ago"
     }
   ]
 }
