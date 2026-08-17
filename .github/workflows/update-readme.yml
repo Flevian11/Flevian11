@@ -2,14 +2,15 @@ name: Update README
 
 on:
   schedule:
-    - cron: "*/30 * * * *"  # Run every 30 minutes
+    - cron: "*/30 * * * *"
   workflow_dispatch:
-  push:
-    paths:
-      - 'auto.json'  # Trigger when activity data updates
 
 permissions:
   contents: write
+
+concurrency:
+  group: readme-updater-main
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -17,117 +18,220 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - name: Checkout profile repo
+      - name: Checkout profile repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
 
       - name: Fetch latest activity data
+        shell: bash
         run: |
-          # Try multiple sources for redundancy
-          curl -s -o auto.json https://raw.githubusercontent.com/Flevian11/flevian-activity/main/auto.json || \
-          curl -s -o auto.json https://raw.githubusercontent.com/Flevian11/flevian-activity/main/auto.json || \
-          echo '{"updates": [], "last_update": "Unknown"}' > auto.json
+          set -euo pipefail
 
-      - name: Parse and update README
-        run: |
-          # Extract statistics
-          TOTAL_UPDATES=$(jq '.updates | length' auto.json)
-          TODAY_UPDATES=$(jq --arg today "$(date -u +"%Y-%m-%d")" '[.updates[] | select(startswith($today))] | length' auto.json)
-          LAST_UPDATE=$(jq -r '.last_update' auto.json)
-          
-          # Calculate weekly total
-          WEEK_AGO=$(date -u -d "7 days ago" +"%Y-%m-%d")
-          WEEKLY_UPDATES=$(jq --arg week_ago "$WEEK_AGO" '[.updates[] | select(. > $week_ago)] | length' auto.json)
-          
-          # Create dynamic activity section
-          cat > activity_dynamic.md << EOF
-          ## 🔄 Activity Status
-          
-          <p align="center">
-            <strong>🚀 Active Development Flow</strong><br>
-            📊 Total commits tracked: ${TOTAL_UPDATES}<br>
-            📅 Today's activity: ${TODAY_UPDATES} commits<br>
-            📈 This week: ${WEEKLY_UPDATES} contributions<br>
-            ⏱️ Last update: ${LAST_UPDATE}
-          </p>
-          
-          <details>
-          <summary><b>📊 Recent Activity Log</b></summary>
-          
-          \`\`\`
-          $(jq -r '.updates[-10:] | .[]' auto.json)
-          \`\`\`
-          
-          </details>
-          EOF
+          curl --fail --silent --show-error --location \
+            https://raw.githubusercontent.com/Flevian11/flevian-activity/main/auto.json \
+            --output auto.json
 
-      - name: Update README.md
+          jq empty auto.json
+
+          echo "Activity data validated successfully."
+
+      - name: Validate stats data
+        shell: bash
         run: |
-          TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
-          
-          # Check if README has the activity section
-          if grep -q "## 🔄 Activity Status" README.md; then
-            # Replace existing activity section
-            sed -i '/## 🔄 Activity Status/,/---/{
-              /## 🔄 Activity Status/!{
-                /---/!d
-              }
-            }' README.md
-            sed -i "/## 🔄 Activity Status/r activity_dynamic.md" README.md
-          else
-            # Append at end
-            echo "" >> README.md
-            echo "---" >> README.md
-            cat activity_dynamic.md >> README.md
+          set -euo pipefail
+
+          if [ ! -f stats.json ]; then
+            echo "stats.json is missing."
+            exit 1
           fi
-          
-          # Update the Last Updated timestamp
-          sed -i "s|Last Updated:.*|Last Updated: $TIMESTAMP|" README.md
-          
-          # Add a real-time activity badge
-          if ! grep -q "![Activity](https://img.shields.io" README.md; then
-            sed -i "/<h3 align=\"center\">/a \\
-          <p align=\"center\">\\
-            <img src=\"https://img.shields.io/badge/Activity-Active-brightgreen?style=flat-square\" />\\
-            <img src=\"https://img.shields.io/badge/Last_Update-$(date -u +\"%Y%m%d\")-blue?style=flat-square\" />\\
-          </p>" README.md
-          fi
+
+          jq empty stats.json
+
+          echo "Stats data validated successfully."
+
+      - name: Generate README dynamic section
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          python3 <<'PY'
+          import json
+          from pathlib import Path
+          from datetime import datetime, timezone
+
+          readme_path = Path("README.md")
+
+          auto = json.loads(Path("auto.json").read_text(encoding="utf-8"))
+          stats = json.loads(Path("stats.json").read_text(encoding="utf-8"))
+
+          updates = auto.get("updates", [])
+          last_activity = auto.get("last_update", "Unknown")
+
+          now = datetime.now(timezone.utc)
+          today = now.strftime("%Y-%m-%d")
+
+          today_count = sum(
+              1 for value in updates
+              if isinstance(value, str) and value.startswith(today)
+          )
+
+          weekly_total = auto.get("stats", {}).get("weekly_total", 0)
+
+          recent_updates = updates[-10:]
+
+          lines = []
+
+          lines.append("<!-- ACTIVITY_STATUS_START -->")
+          lines.append("")
+          lines.append("## 🔄 Activity Status")
+          lines.append("")
+          lines.append('<p align="center">')
+          lines.append("  <strong>🚀 Active Development Flow</strong><br>")
+          lines.append(f"  📊 Total commits tracked: {len(updates)}<br>")
+          lines.append(f"  📅 Today's activity: {today_count} commits<br>")
+          lines.append(f"  📈 This week: {weekly_total} contributions<br>")
+          lines.append(f"  ⏱️ Last activity: {last_activity} UTC")
+          lines.append("</p>")
+          lines.append("")
+          lines.append("<details>")
+          lines.append("<summary><b>📊 Recent Activity Log</b></summary>")
+          lines.append("")
+          lines.append("```")
+
+          if recent_updates:
+              lines.extend(recent_updates)
+          else:
+              lines.append("No activity recorded.")
+
+          lines.append("```")
+          lines.append("")
+          lines.append("</details>")
+          lines.append("")
+          lines.append("<!-- ACTIVITY_STATUS_END -->")
+          lines.append("")
+          lines.append("<!-- STATS_START -->")
+          lines.append("")
+          lines.append("## 📊 GitHub Statistics")
+          lines.append("")
+          lines.append("| Metric | Value |")
+          lines.append("|---|---:|")
+          lines.append(f"| 🔥 Current Streak | {stats.get('streak', 0)} days |")
+          lines.append(f"| 🏆 Longest Streak | {stats.get('longest_streak', 0)} days |")
+          lines.append(f"| ⭐ Stars | {stats.get('stars', 0)} |")
+          lines.append(f"| 🔱 Forks | {stats.get('forks', 0)} |")
+          lines.append(f"| 📦 Public Repositories | {stats.get('repos', 0)} |")
+          lines.append(f"| 👥 Followers | {stats.get('followers', 0)} |")
+          lines.append(f"| 📈 Contributions | {stats.get('contributions', 0)} |")
+          lines.append(f"| 🎯 Developer Score | {stats.get('score', 0)}/100 |")
+          lines.append("")
+          lines.append("### ⭐ Top Repositories")
+          lines.append("")
+          lines.append("| Repository | Stars | Forks | Description |")
+          lines.append("|---|---:|---:|---|")
+
+          for repo in stats.get("top_repos", []):
+              name = repo.get("name", "Unknown")
+              url = repo.get("url", "#")
+              stars = repo.get("stars", 0)
+              forks = repo.get("forks", 0)
+              description = str(repo.get("description", "No description"))
+              description = description.replace("|", "\\|").replace("\n", " ")
+
+              lines.append(
+                  f"| [{name}]({url}) | ⭐ {stars} | 🔱 {forks} | {description} |"
+              )
+
+          lines.append("")
+          lines.append("### 🕐 Recent GitHub Activity")
+          lines.append("")
+          lines.append("| Activity | Repository | Time |")
+          lines.append("|---|---|---|")
+
+          for item in stats.get("recent_activity", []):
+              action = item.get("action", "Activity")
+              repo = item.get("repo", "Unknown")
+              date = item.get("date", "Unknown")
+
+              lines.append(
+                  f"| {action} | "
+                  f"[{repo}](https://github.com/{repo}) | "
+                  f"{date} |"
+              )
+
+          lines.append("")
+          lines.append("<!-- STATS_END -->")
+
+          generated_block = "\n".join(lines)
+
+          content = readme_path.read_text(encoding="utf-8")
+
+          start_marker = "<!-- DYNAMIC_README_START -->"
+          end_marker = "<!-- DYNAMIC_README_END -->"
+
+          start_count = content.count(start_marker)
+          end_count = content.count(end_marker)
+
+          if start_count != 1 or end_count != 1:
+              raise SystemExit(
+                  "README must contain exactly one DYNAMIC_README_START "
+                  "and one DYNAMIC_README_END marker."
+              )
+
+          start = content.index(start_marker)
+          end = content.index(end_marker) + len(end_marker)
+
+          replacement = (
+              start_marker
+              + "\n\n"
+              + generated_block
+              + "\n"
+              + end_marker
+          )
+
+          content = content[:start] + replacement + content[end:]
+
+          readme_path.write_text(content, encoding="utf-8")
+
+          print("README dynamic section regenerated successfully.")
+          PY
+
+      - name: Validate README structure
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          START_COUNT=$(grep -Fc "<!-- DYNAMIC_README_START -->" README.md)
+          END_COUNT=$(grep -Fc "<!-- DYNAMIC_README_END -->" README.md)
+          ACTIVITY_START=$(grep -Fc "<!-- ACTIVITY_STATUS_START -->" README.md)
+          ACTIVITY_END=$(grep -Fc "<!-- ACTIVITY_STATUS_END -->" README.md)
+          STATS_START=$(grep -Fc "<!-- STATS_START -->" README.md)
+          STATS_END=$(grep -Fc "<!-- STATS_END -->" README.md)
+
+          [ "$START_COUNT" -eq 1 ]
+          [ "$END_COUNT" -eq 1 ]
+          [ "$ACTIVITY_START" -eq 1 ]
+          [ "$ACTIVITY_END" -eq 1 ]
+          [ "$STATS_START" -eq 1 ]
+          [ "$STATS_END" -eq 1 ]
+
+          echo "README structure is valid."
 
       - name: Commit README changes
+        shell: bash
         run: |
+          set -euo pipefail
+
           git config user.name "Flevian11"
           git config user.email "flevianochoka19@gmail.com"
-          
-          git add README.md activity_dynamic.md
-          
+
+          git add README.md
+
           if git diff --cached --quiet; then
-            echo "ℹ️ No changes to README"
-          else
-            git commit -m "📝 docs: sync activity data with auto.json"
-            git push --force-with-lease
-            echo "✅ README updated successfully"
+            echo "README is already up to date."
+            exit 0
           fi
 
-      - name: Generate activity graph
-        run: |
-          # Create a simple activity heatmap
-          echo "## 📈 Activity Heatmap (Last 14 Days)" > activity_graph.md
-          echo "" >> activity_graph.md
-          echo "\`\`\`" >> activity_graph.md
-          
-          for i in {0..13}; do
-            DATE=$(date -u -d "$i days ago" +"%Y-%m-%d")
-            COUNT=$(jq --arg date "$DATE" '[.updates[] | select(startswith($date))] | length' auto.json)
-            
-            # Create visual bar
-            BAR=$(printf '█%.0s' $(seq 1 $COUNT))
-            [ -z "$BAR" ] && BAR="·"
-            echo "$DATE: $BAR ($COUNT)" >> activity_graph.md
-          done
-          
-          echo "\`\`\`" >> activity_graph.md
-          
-          git add activity_graph.md
-          git commit -m "📊 chore: update activity heatmap" || true
-          git push --force-with-lease || true
+          git commit -m "chore: update dynamic README"
+          git push

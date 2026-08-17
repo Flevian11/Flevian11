@@ -4,11 +4,13 @@ on:
   schedule:
     - cron: "*/30 * * * *"
   workflow_dispatch:
-  push:
-    branches: [ main, master ]
 
 permissions:
   contents: write
+
+concurrency:
+  group: github-stats-main
+  cancel-in-progress: true
 
 jobs:
   update-stats:
@@ -20,228 +22,289 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install dependencies
         run: |
           npm init -y
           npm install axios moment
-          sudo apt-get update -qq
-          sudo apt-get install -y jq curl
 
-      - name: Fetch GitHub stats
+      - name: Generate stats.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
-          cat > fetch_stats.js << 'EOF'
-          const axios = require('axios');
-          const moment = require('moment');
-          const fs = require('fs');
+          set -euo pipefail
 
-          const username = 'Flevian11';
+          cat > fetch_stats.js << 'EOF'
+          const axios = require("axios");
+          const moment = require("moment");
+          const fs = require("fs");
+
+          const username = "Flevian11";
           const token = process.env.GITHUB_TOKEN;
 
-          async function getContributionData(username) {
-            try {
-              const res = await axios.get(`https://github-contributions-api.jogruber.de/v4/${username}`);
-              return res.data.contributions;
-            } catch (e) {
-              console.log("⚠️ Failed to fetch contribution data");
-              return [];
-            }
-          }
-          function calculateStreaks(weeks) {
-            let currentStreak = 0;
-            let longestStreak = 0;
-            let tempStreak = 0;
-            let totalContributions = 0;
+          const headers = {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/vnd.github+json"
+          };
 
-            if (!weeks || !Array.isArray(weeks)) {
-              return { currentStreak: 0, longestStreak: 0, totalContributions: 0 };
-            }
+          async function getAllRepos() {
+            const repos = [];
 
-            const days = weeks.flatMap(w => (w && w.days ? w.days : []));
+            for (let page = 1; page <= 10; page++) {
+              const response = await axios.get(
+                `https://api.github.com/users/${username}/repos`,
+                {
+                  headers,
+                  params: {
+                    per_page: 100,
+                    page,
+                    type: "owner",
+                    sort: "updated"
+                  }
+                }
+              );
 
-            if (days.length === 0) {
-              return { currentStreak: 0, longestStreak: 0, totalContributions: 0 };
-            }
+              repos.push(...response.data);
 
-            // 🔥 current streak
-            for (let i = days.length - 1; i >= 0; i--) {
-              if (days[i] && days[i].count > 0) currentStreak++;
-              else break;
-            }
-
-            // 🏆 longest streak + total contributions
-            for (let d of days) {
-              if (!d || typeof d.count !== 'number') continue;
-
-              totalContributions += d.count;
-
-              if (d.count > 0) {
-                tempStreak++;
-                longestStreak = Math.max(longestStreak, tempStreak);
-              } else {
-                tempStreak = 0;
+              if (response.data.length < 100) {
+                break;
               }
             }
 
-            return { currentStreak, longestStreak, totalContributions };
+            return repos;
           }
 
-          async function fetchGitHubStats() {
-            const headers = { Authorization: `token ${token}` };
-
+          async function getContributionData() {
             try {
-              const userRes = await axios.get(`https://api.github.com/users/${username}`, { headers });
-              const user = userRes.data;
+              const response = await axios.get(
+                `https://github-contributions-api.jogruber.de/v4/${username}`
+              );
 
-              const reposRes = await axios.get(`https://api.github.com/users/${username}/repos?per_page=100`, { headers });
-              const repos = reposRes.data;
-
-              const totalStars = repos.reduce((sum, r) => sum + r.stargazers_count, 0);
-              const totalForks = repos.reduce((sum, r) => sum + r.forks_count, 0);
-
-              const topRepos = repos
-                .sort((a, b) => b.stargazers_count - a.stargazers_count)
-                .slice(0, 5)
-                .map(r => ({
-                  name: r.name,
-                  stars: r.stargazers_count,
-                  forks: r.forks_count,
-                  description: r.description || "No description",
-                  url: r.html_url
-                }));
-
-              let recentActivity = [];
-              try {
-                const eventsRes = await axios.get(`https://api.github.com/users/${username}/events/public?per_page=10`, { headers });
-                recentActivity = eventsRes.data.map(e => {
-                  let action = '';
-                  switch(e.type) {
-                    case 'PushEvent': action = '📝 Pushed to'; break;
-                    case 'CreateEvent': action = '✨ Created'; break;
-                    case 'WatchEvent': action = '⭐ Starred'; break;
-                    case 'ForkEvent': action = '🔱 Forked'; break;
-                    default: action = `🔄 ${e.type.replace('Event','')}`;
-                  }
-                  return {
-                    action,
-                    repo: e.repo.name,
-                    date: moment(e.created_at).fromNow()
-                  };
-                });
-              } catch {}
-
-              // 🔥 REAL CONTRIBUTION DATA
-              const contributionWeeks = (await getContributionData(username)) || [];              
-              const streakData = calculateStreaks(contributionWeeks);
-
-              const score = Math.min(100, Math.floor(
-                (user.followers * 0.3) +
-                (totalStars * 0.4) +
-                (user.public_repos * 0.3)
-              ));
-
-              const stats = {
-                streak: streakData.currentStreak,
-                longest_streak: streakData.longestStreak,
-                stars: totalStars,
-                forks: totalForks,
-                repos: user.public_repos,
-                followers: user.followers,
-                contributions: streakData.totalContributions,
-                score,
-                top_repos: topRepos,
-                recent_activity: recentActivity
-              };
-
-              fs.writeFileSync('stats.json', JSON.stringify(stats, null, 2));
-              console.log("🔥 REAL stats generated");
-
-            } catch (e) {
-              console.error(e.message);
-              process.exit(1);
+              return response.data.contributions || [];
+            } catch (error) {
+              console.log("Contribution API unavailable.");
+              return [];
             }
           }
 
-          fetchGitHubStats();
+          function calculateStreaks(weeks) {
+            const days = (weeks || []).flatMap(
+              week => Array.isArray(week.days) ? week.days : []
+            );
+
+            if (!days.length) {
+              return {
+                currentStreak: 0,
+                longestStreak: 0,
+                totalContributions: 0
+              };
+            }
+
+            let totalContributions = 0;
+            let longestStreak = 0;
+            let currentRun = 0;
+
+            for (const day of days) {
+              const count = Number(day.count || 0);
+
+              totalContributions += count;
+
+              if (count > 0) {
+                currentRun++;
+                longestStreak = Math.max(longestStreak, currentRun);
+              } else {
+                currentRun = 0;
+              }
+            }
+
+            let currentStreak = 0;
+
+            for (let i = days.length - 1; i >= 0; i--) {
+              if (Number(days[i].count || 0) > 0) {
+                currentStreak++;
+              } else {
+                break;
+              }
+            }
+
+            return {
+              currentStreak,
+              longestStreak,
+              totalContributions
+            };
+          }
+
+          async function main() {
+            const userResponse = await axios.get(
+              `https://api.github.com/users/${username}`,
+              { headers }
+            );
+
+            const user = userResponse.data;
+            const repos = await getAllRepos();
+
+            const totalStars = repos.reduce(
+              (sum, repo) => sum + Number(repo.stargazers_count || 0),
+              0
+            );
+
+            const totalForks = repos.reduce(
+              (sum, repo) => sum + Number(repo.forks_count || 0),
+              0
+            );
+
+            const topRepos = [...repos]
+              .sort((a, b) => {
+                if (b.stargazers_count !== a.stargazers_count) {
+                  return b.stargazers_count - a.stargazers_count;
+                }
+
+                return b.forks_count - a.forks_count;
+              })
+              .slice(0, 5)
+              .map(repo => ({
+                name: repo.name,
+                stars: repo.stargazers_count,
+                forks: repo.forks_count,
+                description: repo.description || "No description",
+                url: repo.html_url
+              }));
+
+            let recentActivity = [];
+
+            try {
+              const eventsResponse = await axios.get(
+                `https://api.github.com/users/${username}/events/public`,
+                {
+                  headers,
+                  params: {
+                    per_page: 10
+                  }
+                }
+              );
+
+              recentActivity = eventsResponse.data.map(event => {
+                let action;
+
+                switch (event.type) {
+                  case "PushEvent":
+                    action = "📝 Pushed to";
+                    break;
+                  case "CreateEvent":
+                    action = "✨ Created";
+                    break;
+                  case "WatchEvent":
+                    action = "⭐ Starred";
+                    break;
+                  case "ForkEvent":
+                    action = "🔱 Forked";
+                    break;
+                  default:
+                    action = `🔄 ${event.type.replace("Event", "")}`;
+                }
+
+                return {
+                  action,
+                  repo: event.repo.name,
+                  date: moment(event.created_at).fromNow()
+                };
+              });
+            } catch {
+              recentActivity = [];
+            }
+
+            const contributionWeeks = await getContributionData();
+            const streakData = calculateStreaks(contributionWeeks);
+
+            const score = Math.min(
+              100,
+              Math.floor(
+                user.followers * 0.3 +
+                totalStars * 0.4 +
+                user.public_repos * 0.3
+              )
+            );
+
+            const stats = {
+              generated_at: new Date().toISOString(),
+              username,
+              streak: streakData.currentStreak,
+              longest_streak: streakData.longestStreak,
+              stars: totalStars,
+              forks: totalForks,
+              repos: user.public_repos,
+              followers: user.followers,
+              contributions: streakData.totalContributions,
+              score,
+              top_repos: topRepos,
+              recent_activity: recentActivity
+            };
+
+            fs.writeFileSync(
+              "stats.json",
+              JSON.stringify(stats, null, 2) + "\n"
+            );
+
+            console.log("stats.json generated successfully.");
+          }
+
+          main().catch(error => {
+            console.error(error);
+            process.exit(1);
+          });
           EOF
 
           node fetch_stats.js
 
-      - name: Update README safely
+      - name: Validate stats
         run: |
-          STREAK=$(jq -r '.streak' stats.json)
-          LONGEST=$(jq -r '.longest_streak' stats.json)
-          STARS=$(jq -r '.stars' stats.json)
-          FORKS=$(jq -r '.forks' stats.json)
-          REPOS=$(jq -r '.repos' stats.json)
-          FOLLOWERS=$(jq -r '.followers' stats.json)
-          CONTRIB=$(jq -r '.contributions' stats.json)
-          SCORE=$(jq -r '.score' stats.json)
-          LAST_UPDATED=$(TZ="Africa/Nairobi" date +"%Y-%m-%d %H:%M:%S EAT")
+          node -e "
+          const fs = require('fs');
+          const data = JSON.parse(fs.readFileSync('stats.json', 'utf8'));
 
+          const required = [
+            'streak',
+            'longest_streak',
+            'stars',
+            'forks',
+            'repos',
+            'followers',
+            'contributions',
+            'score',
+            'top_repos',
+            'recent_activity'
+          ];
 
-          # 🔁 Replace numbers safely (persistent placeholders)
-          sed -i "s|<!-- STREAK -->[0-9]*|<!-- STREAK -->${STREAK}|g" README.md
-          sed -i "s|<!-- LONGEST -->[0-9]*|<!-- LONGEST -->${LONGEST}|g" README.md
-          sed -i "s|<!-- STARS -->[0-9]*|<!-- STARS -->${STARS}|g" README.md
-          sed -i "s|<!-- FORKS -->[0-9]*|<!-- FORKS -->${FORKS}|g" README.md
-          sed -i "s|<!-- REPOS -->[0-9]*|<!-- REPOS -->${REPOS}|g" README.md
-          sed -i "s|<!-- FOLLOWERS -->[0-9]*|<!-- FOLLOWERS -->${FOLLOWERS}|g" README.md
-          sed -i "s|<!-- CONTRIB -->[0-9]*|<!-- CONTRIB -->${CONTRIB}|g" README.md
-          sed -i "s|<!-- SCORE -->[0-9]*|<!-- SCORE -->${SCORE}|g" README.md
+          for (const key of required) {
+            if (!(key in data)) {
+              throw new Error('Missing stats field: ' + key);
+            }
+          }
 
-          # 🏆 Build top repos block
-          {
-            echo "<!-- TOP_REPOS_START -->"
-            echo "| Repository | Stars | Forks | Description |"
-            jq -r '.top_repos[] | "| [\(.name)](\(.url)) | ⭐ \(.stars) | 🔱 \(.forks) | \(.description) |"' stats.json
-            echo "<!-- TOP_REPOS_END -->"
-          } > top_block.md
+          console.log('stats.json validation passed.');
+          "
 
-          awk '
-          /<!-- TOP_REPOS_START -->/ {system("cat top_block.md"); skip=1; next}
-          /<!-- TOP_REPOS_END -->/ {skip=0; next}
-          !skip
-          ' README.md > temp && mv temp README.md
-
-          # 🚀 Build activity block
-          {
-            echo "<!-- RECENT_ACTIVITY_START -->"
-            echo "| Activity | Repo | Time |"
-            echo "|----------|------|------|"
-            jq -r '.recent_activity[] | "| \(.action) | [\(.repo)](https://github.com/\(.repo)) | \(.date) |"' stats.json
-            echo "<!-- RECENT_ACTIVITY_END -->"
-          } > activity_block.md
-
-          awk '
-          /<!-- RECENT_ACTIVITY_START -->/ {system("cat activity_block.md"); skip=1; next}
-          /<!-- RECENT_ACTIVITY_END -->/ {skip=0; next}
-          !skip
-          ' README.md > temp && mv temp README.md
-
-          # ⏱ Update timestamp
-          sed -i "s|<!-- LAST_UPDATED -->.*|<!-- LAST_UPDATED --> ${LAST_UPDATED}|g" README.md
-
-          echo "✅ README updated safely"
-
-      - name: Commit changes
+      - name: Commit stats
+        shell: bash
         run: |
+          set -euo pipefail
+
           git config user.name "Flevian11"
           git config user.email "flevianochoka19@gmail.com"
 
-          git add README.md stats.json
+          git add stats.json
 
           if git diff --cached --quiet; then
-            echo "No changes"
-          else
-            git commit -m "🔥 Auto-update GitHub stats"
-            git push
+            echo "No stats changes."
+            exit 0
           fi
+
+          git commit -m "chore: update GitHub stats"
+          git push
