@@ -1,4 +1,6 @@
 {
+  "generated_at": "2026-08-17T11:12:33.017Z",
+  "username": "Flevian11",
   "streak": 0,
   "longest_streak": 0,
   "stars": 16,
@@ -9,11 +11,11 @@
   "score": 19,
   "top_repos": [
     {
-      "name": "arduino-led-simulation",
+      "name": "whisper",
       "stars": 2,
       "forks": 0,
-      "description": "Arduino Project LED Simulation (Beginner)",
-      "url": "https://github.com/Flevian11/arduino-led-simulation"
+      "description": "Whisper is a real-time encrypted messaging prototype ",
+      "url": "https://github.com/Flevian11/whisper"
     },
     {
       "name": "arduino-traffic-light-simulation",
@@ -23,6 +25,13 @@
       "url": "https://github.com/Flevian11/arduino-traffic-light-simulation"
     },
     {
+      "name": "arduino-led-simulation",
+      "stars": 2,
+      "forks": 0,
+      "description": "Arduino Project LED Simulation (Beginner)",
+      "url": "https://github.com/Flevian11/arduino-led-simulation"
+    },
+    {
       "name": "mpesa-simulator",
       "stars": 2,
       "forks": 0,
@@ -30,19 +39,18 @@
       "url": "https://github.com/Flevian11/mpesa-simulator"
     },
     {
-      "name": "whisper",
-      "stars": 2,
-      "forks": 0,
-      "description": "Whisper is a real-time encrypted messaging prototype ",
-      "url": "https://github.com/Flevian11/whisper"
-    },
-    {
-      "name": "ai-certificate-parser",
+      "name": "Flevian11",
       "stars": 1,
       "forks": 0,
-      "description": "AI Certificate Parser + Legal Doc Generator",
-      "url": "https://github.com/Flevian11/ai-certificate-parser"
+      "description": "Nothing much here… just fullstack development, system architecture, and automation with Laravel, Flutter, and the usual “it works in production” magic.",
+      "url": "https://github.com/Flevian11/Flevian11"
     }
   ],
-  "recent_activity": []
+  "recent_activity": [
+    {
+      "action": "📝 Pushed to",
+      "repo": "Flevian11/flevian-activity",
+      "date": "5 minutes ago"
+    }
+  ]
 }
