@@ -128,14 +128,14 @@ mindset: Code with purpose. Scale with intelligence.
 | [arduino-traffic-light-simulation](https://github.com/Flevian11/arduino-traffic-light-simulation) | ⭐ 2 | 🔱 0 | Arduino Project on Ttraffic Lights Ssimulation |
 | [arduino-led-simulation](https://github.com/Flevian11/arduino-led-simulation) | ⭐ 2 | 🔱 0 | Arduino Project LED Simulation (Beginner) |
 | [mpesa-simulator](https://github.com/Flevian11/mpesa-simulator) | ⭐ 2 | 🔱 0 | A console-based M-Pesa simulator  Users (phone + PIN) Wallet (balance) Agents (deposit/withdraw) ATM (withdraw with PIN) Transactions log |
-| [flevian-activity](https://github.com/Flevian11/flevian-activity) | ⭐ 1 | 🔱 0 | Automated activity engine for maintaining consistent GitHub contributions using scheduled workflows, randomized commits, and realistic development patterns |
+| [Flevian11](https://github.com/Flevian11/Flevian11) | ⭐ 1 | 🔱 0 | Nothing much here… just fullstack development, system architecture, and automation with Laravel, Flutter, and the usual “it works in production” magic. |
 
 ### 🕐 Recent GitHub Activity
 
 | Activity | Repository | Time |
 |---|---|---|
-| ⭐ Starred | [CaptainCodeAU/cc-warehouse](https://github.com/CaptainCodeAU/cc-warehouse) | 8 minutes ago |
-| ⭐ Starred | [KaiwenMo1/worldcup2026](https://github.com/KaiwenMo1/worldcup2026) | 8 minutes ago |
+| ⭐ Starred | [CaptainCodeAU/cc-warehouse](https://github.com/CaptainCodeAU/cc-warehouse) | an hour ago |
+| ⭐ Starred | [KaiwenMo1/worldcup2026](https://github.com/KaiwenMo1/worldcup2026) | an hour ago |
 | 📝 Pushed to | [Flevian11/Flevian11](https://github.com/Flevian11/Flevian11) | a day ago |
 | 📝 Pushed to | [Flevian11/flevian-activity](https://github.com/Flevian11/flevian-activity) | a day ago |
 
