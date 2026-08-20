@@ -134,10 +134,6 @@ mindset: Code with purpose. Scale with intelligence.
 
 | Activity | Repository | Time |
 |---|---|---|
-| ⭐ Starred | [CaptainCodeAU/cc-warehouse](https://github.com/CaptainCodeAU/cc-warehouse) | 3 days ago |
-| ⭐ Starred | [KaiwenMo1/worldcup2026](https://github.com/KaiwenMo1/worldcup2026) | 3 days ago |
-| 📝 Pushed to | [Flevian11/Flevian11](https://github.com/Flevian11/Flevian11) | 3 days ago |
-| 📝 Pushed to | [Flevian11/flevian-activity](https://github.com/Flevian11/flevian-activity) | 3 days ago |
 
 <!-- STATS_END -->
 <!-- DYNAMIC_README_END -->
