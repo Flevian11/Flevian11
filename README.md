@@ -116,9 +116,9 @@ mindset: Code with purpose. Scale with intelligence.
 | ⭐ Stars | 16 |
 | 🔱 Forks | 0 |
 | 📦 Public Repositories | 25 |
-| 👥 Followers | 12 |
+| 👥 Followers | 3 |
 | 📈 Contributions | 0 |
-| 🎯 Developer Score | 17/100 |
+| 🎯 Developer Score | 14/100 |
 
 ### ⭐ Top Repositories
 
