@@ -140,8 +140,8 @@ mindset: Code with purpose. Scale with intelligence.
 | 📝 Pushed to | [Flevian11/lwf-lms](https://github.com/Flevian11/lwf-lms) | a day ago |
 | 📝 Pushed to | [Flevian11/lwf-lms](https://github.com/Flevian11/lwf-lms) | a day ago |
 | 📝 Pushed to | [Flevian11/lwf-lms](https://github.com/Flevian11/lwf-lms) | a day ago |
-| ⭐ Starred | [CaptainCodeAU/cc-warehouse](https://github.com/CaptainCodeAU/cc-warehouse) | 7 days ago |
-| ⭐ Starred | [KaiwenMo1/worldcup2026](https://github.com/KaiwenMo1/worldcup2026) | 7 days ago |
+| ⭐ Starred | [CaptainCodeAU/cc-warehouse](https://github.com/CaptainCodeAU/cc-warehouse) | 8 days ago |
+| ⭐ Starred | [KaiwenMo1/worldcup2026](https://github.com/KaiwenMo1/worldcup2026) | 8 days ago |
 | 📝 Pushed to | [Flevian11/Flevian11](https://github.com/Flevian11/Flevian11) | 8 days ago |
 | 📝 Pushed to | [Flevian11/flevian-activity](https://github.com/Flevian11/flevian-activity) | 8 days ago |
 
