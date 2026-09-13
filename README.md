@@ -125,8 +125,8 @@ mindset: Code with purpose. Scale with intelligence.
 | Repository | Stars | Forks | Description |
 |---|---:|---:|---|
 | [whisper](https://github.com/Flevian11/whisper) | ⭐ 2 | 🔱 0 | Whisper is a real-time encrypted messaging prototype  |
-| [arduino-led-simulation](https://github.com/Flevian11/arduino-led-simulation) | ⭐ 2 | 🔱 0 | Arduino Project LED Simulation (Beginner) |
 | [arduino-traffic-light-simulation](https://github.com/Flevian11/arduino-traffic-light-simulation) | ⭐ 2 | 🔱 0 | Arduino Project on Ttraffic Lights Ssimulation |
+| [arduino-led-simulation](https://github.com/Flevian11/arduino-led-simulation) | ⭐ 2 | 🔱 0 | Arduino Project LED Simulation (Beginner) |
 | [mpesa-simulator](https://github.com/Flevian11/mpesa-simulator) | ⭐ 2 | 🔱 0 | A console-based M-Pesa simulator  Users (phone + PIN) Wallet (balance) Agents (deposit/withdraw) ATM (withdraw with PIN) Transactions log |
 | [Flevian11](https://github.com/Flevian11/Flevian11) | ⭐ 1 | 🔱 0 | Nothing much here… just fullstack development, system architecture, and automation with Laravel, Flutter, and the usual “it works in production” magic. |
 
@@ -134,16 +134,16 @@ mindset: Code with purpose. Scale with intelligence.
 
 | Activity | Repository | Time |
 |---|---|---|
+| 📝 Pushed to | [Flevian11/ochoka-heritage](https://github.com/Flevian11/ochoka-heritage) | 31 minutes ago |
+| 📝 Pushed to | [Flevian11/ochoka-heritage](https://github.com/Flevian11/ochoka-heritage) | 33 minutes ago |
+| 📝 Pushed to | [Flevian11/ochoka-heritage](https://github.com/Flevian11/ochoka-heritage) | an hour ago |
 | 📝 Pushed to | [Flevian11/yaliid-portfolio](https://github.com/Flevian11/yaliid-portfolio) | 2 days ago |
 | 📝 Pushed to | [Flevian11/yaliid-portfolio](https://github.com/Flevian11/yaliid-portfolio) | 2 days ago |
 | 📝 Pushed to | [Flevian11/yaliid-portfolio](https://github.com/Flevian11/yaliid-portfolio) | 2 days ago |
 | 📝 Pushed to | [Flevian11/yaliid-portfolio](https://github.com/Flevian11/yaliid-portfolio) | a day ago |
 | 📝 Pushed to | [Flevian11/yaliid-portfolio](https://github.com/Flevian11/yaliid-portfolio) | 2 days ago |
 | 📝 Pushed to | [Flevian11/yaliid-portfolio](https://github.com/Flevian11/yaliid-portfolio) | 2 days ago |
-| 📝 Pushed to | [Flevian11/lwf-lms](https://github.com/Flevian11/lwf-lms) | 2 days ago |
-| ✨ Created | [Flevian11/yaliid-portfolio](https://github.com/Flevian11/yaliid-portfolio) | 4 days ago |
-| 📝 Pushed to | [Flevian11/yaliid-portfolio](https://github.com/Flevian11/yaliid-portfolio) | 2 days ago |
-| 📝 Pushed to | [Flevian11/yaliid-portfolio](https://github.com/Flevian11/yaliid-portfolio) | 2 days ago |
+| 📝 Pushed to | [Flevian11/lwf-lms](https://github.com/Flevian11/lwf-lms) | 3 days ago |
 
 <!-- STATS_END -->
 <!-- DYNAMIC_README_END -->
