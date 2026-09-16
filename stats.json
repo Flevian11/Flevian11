@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-16T21:47:04.345Z",
+  "generated_at": "2026-09-16T23:55:04.533Z",
   "username": "Flevian11",
   "streak": 0,
   "longest_streak": 0,
@@ -39,14 +39,19 @@
       "url": "https://github.com/Flevian11/mpesa-simulator"
     },
     {
-      "name": "flevian-activity",
+      "name": "Flevian11",
       "stars": 1,
       "forks": 0,
-      "description": "Automated activity engine for maintaining consistent GitHub contributions using scheduled workflows, randomized commits, and realistic development patterns",
-      "url": "https://github.com/Flevian11/flevian-activity"
+      "description": "Nothing much here… just fullstack development, system architecture, and automation with Laravel, Flutter, and the usual “it works in production” magic.",
+      "url": "https://github.com/Flevian11/Flevian11"
     }
   ],
   "recent_activity": [
+    {
+      "action": "📝 Pushed to",
+      "repo": "Flevian11/Syncsenta",
+      "date": "a day ago"
+    },
     {
       "action": "📝 Pushed to",
       "repo": "Flevian11/Syncsenta",
@@ -80,16 +85,11 @@
     {
       "action": "📝 Pushed to",
       "repo": "Flevian11/ochoka-heritage",
-      "date": "2 days ago"
+      "date": "3 days ago"
     },
     {
       "action": "🔄 PullRequest",
       "repo": "dgithinjibit/Syncsenta",
-      "date": "a day ago"
-    },
-    {
-      "action": "📝 Pushed to",
-      "repo": "Flevian11/Syncsenta",
       "date": "a day ago"
     },
     {
